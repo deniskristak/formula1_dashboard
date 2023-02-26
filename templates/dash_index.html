@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% load plotly_dash %}
+
+{% plotly_app_bootstrap name="MainDashApp" aspect="1by1" %}
+{% endblock %}
