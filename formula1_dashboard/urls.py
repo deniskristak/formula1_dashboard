@@ -1,4 +1,4 @@
-"""f1_dashboard_tips_input URL Configuration
+"""formula1_dashboard URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -18,9 +18,9 @@ from django.urls import path, include
 from tips_input.dash_app import dash_app
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('tips/', include('tips_input.urls')),
-    path('dash/', include('tips_dash.urls')),
     # this is needed for dash to work
     path('', include('django_plotly_dash.urls')),
+    path("admin/", admin.site.urls),
+    path('', include('tips_input.urls')),
+    path('dash/', include('tips_dash.urls')),
 ]

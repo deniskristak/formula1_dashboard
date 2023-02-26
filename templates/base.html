@@ -26,10 +26,10 @@
         <a class="h3" href={% url 'tips_input:index' %}>Tips registration</a>
         <a class="h3" href={% url 'tips_dash:index' %}>Result dashboard</a>
     </div>
-{#	<div class="container mb-4">#}
-    {% block content %}
-	{% endblock %}
-{#	</div>#}
+	<div class="container mb-4">
+		{% block content %}
+		{% endblock %}
+	</div>
     <script>
         htmx.onLoad(function(content) {
             var sortables = content.querySelectorAll(".sortable");

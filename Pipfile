@@ -8,6 +8,7 @@ django = "*"
 django-crispy-forms = "*"
 crispy-bootstrap4 = "*"
 django-plotly-dash = "*"
+pandas = "*"
 
 [dev-packages]
 

@@ -5,7 +5,6 @@ from . import views
 app_name = 'tips_input'
 
 urlpatterns = [
-    # ex: /tips/
     path('', views.index, name='index'),
     path('ordering/', views.ordering, name='ordering'),
     path('sort/', views.sort, name='sort'),

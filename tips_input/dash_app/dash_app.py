@@ -7,16 +7,16 @@ from tips_dash.models import RaceTip
 
 app = DjangoDash('MainDashApp')
 
-race_tips = RaceTip.objects.all()
-tip_labels = []
-for tip in race_tips:
-    tip_labels.append(
-        html.Div(
-            dbc.Label(str(tip.race))
-        )
-    )
+# race_tips = RaceTip.objects.all()
+# tip_labels = []
+# for tip in race_tips:
+#     tip_labels.append(
+#         html.Div(
+#             dbc.Label(str(tip.race))
+#         )
+#     )
 
-print(tip_labels)
+# print(tip_labels)
 
 app.layout = html.Div(
     # tip_labels

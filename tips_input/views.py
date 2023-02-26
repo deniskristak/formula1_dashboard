@@ -11,9 +11,7 @@ def index(request):
 
 def ordering(request):
     current_player: Player = request.POST.get('player_formfield')
-    print(current_player)
     current_race: Race = request.POST.get('race_formfield')
-    print(current_race)
     tips = RaceTip.objects.filter(player=current_player, race=current_race)
     return render(request, 'ordering.html', {'tips': tips, 'current_player': current_player, 'current_race': current_race})
 

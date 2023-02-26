@@ -43,6 +43,7 @@ class RaceTip(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField()
+    position_quali = models.PositiveSmallIntegerField()
     fastest_lap = models.BooleanField(default=False)
     dotd = models.BooleanField(default=False)
     dnf = models.BooleanField(default=False)
