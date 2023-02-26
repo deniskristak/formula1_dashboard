@@ -21,6 +21,7 @@ python manage.py migrate
 ```
 
 Populate database with test data:
+Note - this should only be run once, as it will duplicate the data if ran multiple times on one database.
 ```bash
 python manage.py populate_database
 ```
