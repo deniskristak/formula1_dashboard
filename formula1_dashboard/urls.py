@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from tips_input.dash_app import dash_app
+from tips_dash.dash_app import dash_app
 
 urlpatterns = [
     # this is needed for dash to work
