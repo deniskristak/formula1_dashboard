@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="align-center ">
+    {% if race_type == 'quali' %}
+        <h2>Qualification order</h2>
+    {% endif %}
+    {% if race_type == 'race' %}
+        <h2>Race order</h2>
+    {% endif %}
+    <div class="align-center">
         <main class="d-flex">
             <section id="drivers-list" class="col-12">
                 {% include 'sortable_drivers.html' %}
