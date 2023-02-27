@@ -49,7 +49,7 @@ class RaceTip(models.Model):
     dnf = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.player}-{self.race}-{self.driver} {self.position}"
+        return f"{self.player}-{self.race}-{self.driver} POS: {self.position} QUALI_POS: {self.position_quali}"
 
     class Meta:
         ordering = ['position']

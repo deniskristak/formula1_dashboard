@@ -27,7 +27,7 @@ class F1DriversForm(forms.Form):
 
     player_formfield = forms.ChoiceField(choices=players_names, label="Who are you?")
     race_formfield = forms.ChoiceField(choices=races_names, label="What Grandprix are you betting on?")
-    # race_type_formfield = forms.ChoiceField(choices=[("Race", "Qualification")], label="Quali or race?")
+    race_type_formfield = forms.ChoiceField(choices=[("race", "Race"), ("quali", "Qualification")], label="Quali or race?")
 
 
     def __init__(self, *args, **kwargs):
@@ -39,7 +39,7 @@ class F1DriversForm(forms.Form):
             Row(
                 Column('player_formfield', css_class='form-group col-md-6 mb-0'),
                 Column('race_formfield', css_class='form-group col-md-6 mb-0'),
-                # Column('race_type_formfield', css_class='form-group col-md-6 mb-0'),
+                Column('race_type_formfield', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
             Row(

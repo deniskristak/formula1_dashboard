@@ -5,12 +5,19 @@
         {% for tip in tips %}
             <div class="mb-1">
                 <input type='hidden' name='driver_order' value={{ tip.driver.pk }} />
+
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    #{{ tip.position }} {{ tip.driver.name }} ({{ tip.driver.team }})
+                    {% if type_of_race == 'quali' %}
+                        #{{ tip.position_quali }} {{ tip.driver.name }} ({{ tip.driver.team }})
+                    {% endif %}
+                    {% if type_of_race == 'race' %}
+                        #{{ tip.position }} {{ tip.driver.name }} ({{ tip.driver.team }})
+                    {% endif %}
                 </li>
             </div>
         {% endfor %}
         <input type='hidden' name='current_player' value={{ current_player }} />
         <input type='hidden' name='current_race' value={{ current_race }} />
+        <input type='hidden' name='type_of_race' value={{ type_of_race }} />
 </form>
 </section>
