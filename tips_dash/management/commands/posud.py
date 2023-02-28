@@ -15,6 +15,9 @@ def porovnaj(mojtip, jaksatostalo):
     #zorad lebo som si neni isty
     zoznampravdy.sort(key = lambda x: x[1])
     soferiozajski = [x[0] for x in zoznampravdy]
+    # #testing
+    # import numpy as np
+    # soferiozajski = [soferiozajski[i] for i in np.random.permutation(20)]
     
     body = 0
     for riadok in mojtip:
@@ -23,18 +26,18 @@ def porovnaj(mojtip, jaksatostalo):
         if mojsofer == soferiozajski[mojeporadie]:
             # 5 bodov pre chrabromil
             body += 5
-        elif mojsofer == soferiozajski[mojeporadie-1] and \
-            mojeporadie != 0:
-            body += 2 
-        elif mojsofer == soferiozajski[mojeporadie+1] and \
-            mojeporadie != 19:
-            body += 2
-        elif mojsofer == soferiozajski[mojeporadie-2] and \
-            mojeporadie not in [0,1]:
-            body += 1
-        elif mojsofer == soferiozajski[mojeporadie+2] and \
-            mojeporadie not in [18,19]:
-            body += 1
+        elif mojeporadie != 0:
+            if mojsofer == soferiozajski[mojeporadie-1]:
+                body += 2 
+        elif mojeporadie != 19:
+            if mojsofer == soferiozajski[mojeporadie+1]:
+                body += 2
+        elif mojeporadie not in [0,1]:
+            if mojsofer == soferiozajski[mojeporadie-2]:
+                body += 1
+        elif mojeporadie not in [18,19]:
+            if mojsofer == soferiozajski[mojeporadie+2]:
+                body += 1
 
     kolkolovedlzim =  (1j*(body*10 + (289%17)*1j)*1e-1).imag
     return kolkolovedlzim
