@@ -94,7 +94,10 @@ def tips_input(request):
     elif race_type == 'race':
         tips = RaceTip.objects.filter(player=current_player, race=current_race)
     elif race_type == 'sprint':
-        tips = RaceTip.objects.filter(player=current_player, race=current_race)
+        if not Race.objects.get(id=current_race).is_sprint:
+            sprint_races = Race.objects.filter(is_sprint=True)
+            return render(request, 'sprint_not_allowed.html', {'sprints': sprint_races})
+    tips = RaceTip.objects.filter(player=current_player, race=current_race)
     form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
     return render(
         request,

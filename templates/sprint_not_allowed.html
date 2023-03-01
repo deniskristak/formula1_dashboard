@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="alert alert-danger" role="alert" style="align-items: center">
+        <h3 style="text-align: center">Sorry, this race is not a sprint race. Here are all the sprint races:</h3>
+    </div>
+    <div class="alert alert-secondary" role="secondary">
+    {% for race in sprints %}
+        <h4 style="text-align: center">
+            {{ race.name }}, {{ race.country }} @ {{ race.datetime_of_race_gmt }} (GMT)
+        </h4>
+        {% if not forloop.last %}
+            <br>
+        {% endif %}
+    {% endfor %}
+    </div>
+    <br>
+    <input class="btn btn-outline-secondary btn-lg btn-block" type=button value="Go back" onClick="javascript:history.go(-1);">
+{% endblock %}
