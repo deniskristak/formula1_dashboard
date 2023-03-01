@@ -9,11 +9,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        self.stdout.write(self.style.SUCCESS('Successfully populated database'))
-
         list_of_teams = self.read_data("tips_input_team.csv")
         for team in list_of_teams:
             new_team = Team(
+                id=team[0],
                 name=team[1]
             )
             new_team.save()
@@ -21,6 +20,7 @@ class Command(BaseCommand):
         list_of_drivers = self.read_data("tips_input_driver.csv")
         for driver in list_of_drivers:
             new_driver = Driver(
+                id=driver[0],
                 name=driver[1],
                 default_position=driver[2],
                 team=Team.objects.get(pk=driver[3])
@@ -30,6 +30,7 @@ class Command(BaseCommand):
         list_of_players = self.read_data("tips_input_player.csv")
         for player in list_of_players:
             new_player = Player(
+                id=player[0],
                 fullname=player[1],
                 nickname=player[2]
             )
@@ -38,6 +39,7 @@ class Command(BaseCommand):
         list_of_races = self.read_data("tips_input_race.csv")
         for race in list_of_races:
             new_race = Race(
+                id=race[0],
                 name=race[1],
                 country=race[2],
                 is_sprint=race[3],
@@ -65,6 +67,8 @@ class Command(BaseCommand):
                         dotd=False if driver.default_position != 1 else True,
                     )
                     new_racetip.save()
+
+        self.stdout.write(self.style.SUCCESS('Successfully populated database'))
 
     @staticmethod
     def read_data(data_filename):
