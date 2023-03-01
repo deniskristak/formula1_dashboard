@@ -59,7 +59,10 @@ class DriverExtrasForm(forms.Form):
         players = []
         races = []
         drivers = []
-
+    except ProgrammingError:
+        players = []
+        races = []
+        drivers = []
 
     dnf_select_1 = forms.ChoiceField(
         choices=choices_default,
