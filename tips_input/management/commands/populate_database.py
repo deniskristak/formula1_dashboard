@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 import os
 from tips_input.models import Player, RaceTip, Race, Driver, Team
 import csv
