@@ -46,3 +46,4 @@ Go to that localhost address
 3. Command can be run with `python manage.py edkov_cmd`
 4. All additional info (w.r.t retrieval of object from DB, creating new objects etc.) can be found in comments of the command's code
 5. Newly created models (results, points) are defined in `tips_dash/models.py`
+6. To populate database with test results, run `python manage.py populate_database`
