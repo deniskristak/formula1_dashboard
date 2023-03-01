@@ -82,6 +82,7 @@ WSGI_APPLICATION = "formula1_dashboard.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# this is only for local development, PostgreSQL is used by django_heroku in production
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
