@@ -13,6 +13,9 @@
                     {% if race_type == 'race' %}
                         #{{ tip.position }} {{ tip.driver.name }} ({{ tip.driver.team }})
                     {% endif %}
+                    {% if race_type == 'sprint' %}
+                        #{{ tip.position_sprint }} {{ tip.driver.name }} ({{ tip.driver.team }})
+                    {% endif %}
                 </li>
             </div>
         {% endfor %}

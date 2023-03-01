@@ -22,8 +22,14 @@ class F1DriversForm(forms.Form):
         races_names = []
     player_formfield = forms.ChoiceField(choices=players_names, label="Who are you?")
     race_formfield = forms.ChoiceField(choices=races_names, label="What Grandprix are you betting on?")
-    race_type_formfield = forms.ChoiceField(choices=[("race", "Race"), ("quali", "Qualification")],
-                                            label="Quali or race?")
+    race_type_formfield = forms.ChoiceField(
+        choices=[
+            ("race", "Race"),
+            ("quali", "Qualification"),
+            ("sprint", "Sprint"),
+        ],
+        label="Quali or race?"
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -40,7 +46,6 @@ class F1DriversForm(forms.Form):
             Row(
                 FormActions(Submit('continue', 'Continue')),
             ),
-
         )
 
 
@@ -74,7 +79,7 @@ class DriverExtrasForm(forms.Form):
     )
     dnf_select_3 = forms.ChoiceField(
         choices=choices_default,
-        label="DNF driver #3"
+        label="DNF driver #3",
     )
     dotd_select = forms.ChoiceField(
         choices=choices_default,
@@ -82,7 +87,7 @@ class DriverExtrasForm(forms.Form):
     )
     fastest_lap_select = forms.ChoiceField(
         choices=choices_default,
-        label="Fastest Lap"
+        label="Fastest Lap",
     )
 
     def __init__(self, curr_player, curr_race, race_type, *args, **kwargs):
@@ -122,3 +127,8 @@ class DriverExtrasForm(forms.Form):
         self.fields['dotd_select'].initial=curr_dotd_tip.driver.id
         curr_fastest_lap_tip = RaceTip.objects.get(player=curr_player, race=curr_race, fastest_lap=True)
         self.fields['fastest_lap_select'].initial=curr_fastest_lap_tip.driver.id
+
+        # if race type is sprint, we don't want to see dodt and fastest lap
+        if race_type == 'sprint':
+            self.fields['dotd_select'].widget = forms.HiddenInput()
+            self.fields['fastest_lap_select'].widget = forms.HiddenInput()

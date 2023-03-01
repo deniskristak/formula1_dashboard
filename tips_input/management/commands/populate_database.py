@@ -58,9 +58,11 @@ class Command(BaseCommand):
                         player=player,
                         race=race,
                         position=driver.default_position,
+                        position_sprint=driver.default_position,
                         position_quali=driver.default_position,
                         # setting the worst 3 drivers as DNF as a default
                         dnf=False if driver.default_position < len(all_drivers) - 2 else True,
+                        dnf_sprint=False if driver.default_position < len(all_drivers) - 2 else True,
                         # setting the best driver to have fastest lap as a default
                         fastest_lap=False if driver.default_position != 1 else True,
                         # setting the best driver to be driver of the day as a default

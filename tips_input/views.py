@@ -19,6 +19,7 @@ def ordering(request):
     current_player: Player = request.POST.get('player_formfield')
     current_race: Race = request.POST.get('race_formfield')
     race_type = request.POST.get('race_type_formfield')
+
     if race_type == 'race':
         tips = RaceTip.objects.filter(player=current_player, race=current_race)
         # reset player's tips about dnf, dotd, fastest_lap
@@ -47,6 +48,26 @@ def ordering(request):
         fastest_lap_driver.fastest_lap = True
         fastest_lap_driver.save()
 
+    if race_type == 'sprint':
+        tips = RaceTip.objects.filter(player=current_player, race=current_race).order_by('position_sprint')
+        # reset player's tips about the sprint's dnf
+        all_drivers_tips = RaceTip.objects.filter(player=current_player, race=current_race)
+        for tip in all_drivers_tips:
+            tip.dnf_sprint = False
+            tip.save()
+
+        # if we are on race, there are data in request with info about dnf, dotd, fastest_lap
+        # update dnf, fastest_lap and dotd according to the selection from previous page
+        dnf_driver_1 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_1'))
+        dnf_driver_1.dnf = True
+        dnf_driver_1.save()
+        dnf_driver_2 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_2'))
+        dnf_driver_2.dnf = True
+        dnf_driver_2.save()
+        dnf_driver_3 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_3'))
+        dnf_driver_3.dnf = True
+        dnf_driver_3.save()
+
     elif race_type == 'quali':
         tips = RaceTip.objects.filter(player=current_player, race=current_race).order_by('position_quali')
     form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
@@ -71,6 +92,8 @@ def tips_input(request):
         request.session['_old_post'] = request.POST
         return redirect('/tips_input/ordering/')
     elif race_type == 'race':
+        tips = RaceTip.objects.filter(player=current_player, race=current_race)
+    elif race_type == 'sprint':
         tips = RaceTip.objects.filter(player=current_player, race=current_race)
     form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
     return render(
@@ -98,6 +121,8 @@ def sort(request):
             tip.position = drivers_pks_ordered.index(driver_pk) + 1
         elif race_type == 'quali':
             tip.position_quali = drivers_pks_ordered.index(driver_pk) + 1
+        elif race_type == 'sprint':
+            tip.position_sprint = drivers_pks_ordered.index(driver_pk) + 1
         tip.save()
         tips.append(tip)
     return render(
