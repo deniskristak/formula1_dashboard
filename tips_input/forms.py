@@ -2,7 +2,7 @@ from crispy_forms.bootstrap import FormActions
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit, Hidden
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError, ProgrammingError
 
 from tips_input.models import Player, Race, Driver, RaceTip
 
@@ -15,6 +15,9 @@ class F1DriversForm(forms.Form):
         players_names = [(player.id, player.nickname) for player in players]
         races_names = [(race.id, race.name) for race in races]
     except OperationalError:
+        players_names = []
+        races_names = []
+    except ProgrammingError:
         players_names = []
         races_names = []
     player_formfield = forms.ChoiceField(choices=players_names, label="Who are you?")
