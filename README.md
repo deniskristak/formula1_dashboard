@@ -19,6 +19,11 @@ Create database:
 ```bash
 python manage.py migrate
 ```
+#### Be careful with this one
+Remove all data about drivers, tips, races etc. from database.
+```bash
+python manage.py remove_all_from_database
+```
 
 Populate database with test data:
 Note - this should only be run once, as it will duplicate the data if ran multiple times on one database.
@@ -47,6 +52,3 @@ Go to that localhost address
 4. All additional info (w.r.t retrieval of object from DB, creating new objects etc.) can be found in comments of the command's code
 5. Newly created models (results, points) are defined in `tips_dash/models.py`
 6. To populate database with test results, run `python manage.py populate_database`
-
-# release: python manage.py remove_all_from_database
-# release: python manage.py populate_database

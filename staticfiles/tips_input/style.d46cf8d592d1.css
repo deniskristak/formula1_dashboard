@@ -1,0 +1,50 @@
+.red_bull {
+    color: #CC1E4A;
+    background-color: #1B2B5A;
+    font-weight: bold;
+}
+.ferrari {
+    color: #000000;
+    background-color: #F91536;
+    font-weight: bold;
+}
+.mercedes {
+    color: #000000;
+    background-color: #6CD3BF;
+    font-weight: bold;
+}
+.alpine {
+    color: #F196C6;
+    background-color: #2173B8;
+    font-weight: bold;
+}
+.mclaren {
+    color: #262626;
+    background-color: #FF8000;
+    font-weight: bold;
+}
+.alfa_romeo {
+    color: #111111;
+    background-color: #A50F2D;
+    font-weight: bold;
+}
+.aston_martin {
+    color: #CEDC00;
+    background-color: #00665E;
+    font-weight: bold;
+}
+.haas {
+    color: #DA291C;
+    background-color: #000000;
+    font-weight: bold;
+}
+.alpha_tauri {
+    color: #FFFFFF;
+    background-color: #20394C;
+    font-weight: bold;
+}
+.williams {
+    color: #041E42;
+    background-color: #00A3E0;
+    font-weight: bold;
+}

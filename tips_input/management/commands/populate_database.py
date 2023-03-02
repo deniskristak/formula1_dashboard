@@ -13,7 +13,8 @@ class Command(BaseCommand):
         for team in list_of_teams:
             new_team = Team(
                 id=team[0],
-                name=team[1]
+                name=team[1],
+                lc_name=team[2]
             )
             new_team.save()
 

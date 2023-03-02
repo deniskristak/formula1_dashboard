@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 
 from .forms import F1DriversForm, DriverExtrasForm
 from .models import RaceTip, Race, Player
@@ -16,60 +16,26 @@ def ordering(request):
         request.POST = request.session['_old_post']
         # todo: if quali page is refreshed, browser cannot access data from this _old_post since we're deleting it - try to think about a solution
         request.session.pop('_old_post')
+
     current_player: Player = request.POST.get('player_formfield')
     current_race: Race = request.POST.get('race_formfield')
     race_type = request.POST.get('race_type_formfield')
 
     if race_type == 'race':
-        tips = RaceTip.objects.filter(player=current_player, race=current_race)
-        # reset player's tips about dnf, dotd, fastest_lap
-        all_drivers_tips = RaceTip.objects.filter(player=current_player, race=current_race)
-        for tip in all_drivers_tips:
-            tip.dnf = False
-            tip.fastest_lap = False
-            tip.dotd = False
-            tip.save()
-
-        # if we are on race, there are data in request with info about dnf, dotd, fastest_lap
-        # update dnf, fastest_lap and dotd according to the selection from previous page
-        dnf_driver_1 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_1'))
-        dnf_driver_1.dnf = True
-        dnf_driver_1.save()
-        dnf_driver_2 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_2'))
-        dnf_driver_2.dnf = True
-        dnf_driver_2.save()
-        dnf_driver_3 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_3'))
-        dnf_driver_3.dnf = True
-        dnf_driver_3.save()
-        dotd_driver = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dotd_select'))
-        dotd_driver.dotd = True
-        dotd_driver.save()
-        fastest_lap_driver = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('fastest_lap_select'))
-        fastest_lap_driver.fastest_lap = True
-        fastest_lap_driver.save()
+        # getting tips ordered by position in race
+        tips = RaceTip.objects.filter(player=current_player, race=current_race).order_by('position')
+        # if race was selected, there are data in request with info about dnf, dotd, fastest_lap
+        save_extras_for_race(current_player=current_player, request=request, current_race=current_race, tips=tips)
 
     if race_type == 'sprint':
+        # getting tips, but in correct order (sprint)
         tips = RaceTip.objects.filter(player=current_player, race=current_race).order_by('position_sprint')
-        # reset player's tips about the sprint's dnf
-        all_drivers_tips = RaceTip.objects.filter(player=current_player, race=current_race)
-        for tip in all_drivers_tips:
-            tip.dnf_sprint = False
-            tip.save()
-
-        # if we are on race, there are data in request with info about dnf, dotd, fastest_lap
-        # update dnf, fastest_lap and dotd according to the selection from previous page
-        dnf_driver_1 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_1'))
-        dnf_driver_1.dnf = True
-        dnf_driver_1.save()
-        dnf_driver_2 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_2'))
-        dnf_driver_2.dnf = True
-        dnf_driver_2.save()
-        dnf_driver_3 = RaceTip.objects.get(player=current_player, race=current_race, driver=request.POST.get('dnf_select_3'))
-        dnf_driver_3.dnf = True
-        dnf_driver_3.save()
+        # if sprint was selected, there are data in request with info about DNF
+        save_extras_for_sprint(current_player=current_player, request=request, current_race=current_race, tips=tips)
 
     elif race_type == 'quali':
         tips = RaceTip.objects.filter(player=current_player, race=current_race).order_by('position_quali')
+
     form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
     return render(
         request,
@@ -84,21 +50,98 @@ def ordering(request):
     )
 
 
+def save_extras_for_sprint(current_player, current_race, request, tips):
+    # reset player's tips about the sprint's dnf
+    for tip in tips:
+        tip.dnf_sprint = False
+        tip.save()
+
+    # if we are on race, there are data in request with info about dnf, dotd, fastest_lap
+    # update dnf, fastest_lap and dotd according to the selection from previous page
+    dnf_driver_1 = RaceTip.objects.get(
+        player=current_player,
+        race=current_race,
+        driver=request.POST.get('dnf_select_1')
+    )
+
+    dnf_driver_1.dnf_sprint = True
+    dnf_driver_1.save()
+
+    dnf_driver_2 = RaceTip.objects.get(
+        player=current_player,
+        race=current_race,
+        driver=request.POST.get('dnf_select_2')
+    )
+    dnf_driver_2.dnf_sprint = True
+    dnf_driver_2.save()
+
+    dnf_driver_3 = RaceTip.objects.get(
+        player=current_player,
+        race=current_race,
+        driver=request.POST.get('dnf_select_3')
+    )
+    dnf_driver_3.dnf_sprint = True
+    dnf_driver_3.save()
+
+
+# this method saves data for race tips w.r.t. dnf, dotd, fastest_lap
+def save_extras_for_race(current_player, request, current_race, tips):
+    # first, reset player's existing tips
+    all_drivers_tips = RaceTip.objects.filter(player=current_player, race=current_race)
+    for tip in all_drivers_tips:
+        tip.dnf = False
+        tip.fastest_lap = False
+        tip.dotd = False
+        tip.save()
+
+    # save DNFs
+    dnf_fields = ['dnf_select_1', 'dnf_select_2', 'dnf_select_3']
+    for field in dnf_fields:
+        dnf_driver = RaceTip.objects.get(
+            player=current_player,
+            race=current_race,
+            driver=request.POST.get(field)
+        )
+        dnf_driver.dnf = True
+        dnf_driver.save()
+
+    # save dotd
+    dotd_driver = RaceTip.objects.get(
+        player=current_player,
+        race=current_race,
+        driver=request.POST.get('dotd_select')
+    )
+    dotd_driver.dotd = True
+    dotd_driver.save()
+
+    # save fastest lap
+    fastest_lap_driver = RaceTip.objects.get(
+        player=current_player,
+        race=current_race,
+        driver=request.POST.get('fastest_lap_select')
+    )
+    fastest_lap_driver.fastest_lap = True
+    fastest_lap_driver.save()
+
+
 def tips_input(request):
     current_player: Player = request.POST.get('player_formfield')
     current_race: Race = request.POST.get('race_formfield')
     race_type = request.POST.get('race_type_formfield')
+
     if race_type == 'quali':
+        # save data for the future (redirect doesnt forward request data)
         request.session['_old_post'] = request.POST
         return redirect('/tips_input/ordering/')
-    elif race_type == 'race':
-        tips = RaceTip.objects.filter(player=current_player, race=current_race)
     elif race_type == 'sprint':
+        # if `sprint` was selected and race isn't sprint, render error page
         if not Race.objects.get(id=current_race).is_sprint:
             sprint_races = Race.objects.filter(is_sprint=True)
             return render(request, 'sprint_not_allowed.html', {'sprints': sprint_races})
+
     tips = RaceTip.objects.filter(player=current_player, race=current_race)
     form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
+
     return render(
         request,
         'extras_input.html',

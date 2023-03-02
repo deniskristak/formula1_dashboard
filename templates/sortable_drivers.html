@@ -6,7 +6,7 @@
             <div class="mb-1">
                 <input type='hidden' name='driver_order' value={{ tip.driver.pk }} />
 
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item d-flex justify-content-between align-items-center {{ tip.driver.team.lc_name }}">
                     {% if race_type == 'quali' %}
                         #{{ tip.position_quali }} {{ tip.driver.name }} ({{ tip.driver.team }})
                     {% endif %}
