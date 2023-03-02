@@ -8,13 +8,13 @@
 
                 <li class="list-group-item d-flex justify-content-between align-items-center {{ tip.driver.team.lc_name }}">
                     {% if race_type == 'quali' %}
-                        #{{ tip.position_quali }} {{ tip.driver.name }} ({{ tip.driver.team }})
+                        P{{ tip.position_quali }} {{ tip.driver.name }} ({{ tip.driver.team }})
                     {% endif %}
                     {% if race_type == 'race' %}
-                        #{{ tip.position }} {{ tip.driver.name }} ({{ tip.driver.team }})
+                        P{{ tip.position }} {{ tip.driver.name }} ({{ tip.driver.team }})
                     {% endif %}
                     {% if race_type == 'sprint' %}
-                        #{{ tip.position_sprint }} {{ tip.driver.name }} ({{ tip.driver.team }})
+                        P{{ tip.position_sprint }} {{ tip.driver.name }} ({{ tip.driver.team }})
                     {% endif %}
                 </li>
             </div>

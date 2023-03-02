@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="alert alert-danger" role="alert" style="align-items: center">
+        <h3 style="text-align: center">Sorry, this event has already started. You cannot change your tips anymore.</h3>
+    </div>
+    <input class="btn btn-outline-secondary btn-lg btn-block" type=button value="Go back" onClick="javascript:history.go(-1);">
+{% endblock %}

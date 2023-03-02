@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
+from datetime import datetime
+import pytz
 
 from .forms import F1DriversForm, DriverExtrasForm
 from .models import RaceTip, Race, Player
@@ -21,6 +23,9 @@ def ordering(request):
     current_race: Race = request.POST.get('race_formfield')
     race_type = request.POST.get('race_type_formfield')
 
+    current_race_object = Race.objects.get(id=current_race)
+    print(utc.localize(now) < current_race_object.datetime_of_race_gmt)
+
     if race_type == 'race':
         # getting tips ordered by position in race
         tips = RaceTip.objects.filter(player=current_player, race=current_race).order_by('position')
@@ -34,6 +39,7 @@ def ordering(request):
         save_extras_for_sprint(current_player=current_player, request=request, current_race=current_race, tips=tips)
 
     elif race_type == 'quali':
+        # if race_type is quali, we have nothing to save, so we just continue with ordering
         tips = RaceTip.objects.filter(player=current_player, race=current_race).order_by('position_quali')
 
     form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
@@ -125,8 +131,12 @@ def save_extras_for_race(current_player, request, current_race, tips):
 
 
 def tips_input(request):
-    current_player: Player = request.POST.get('player_formfield')
-    current_race: Race = request.POST.get('race_formfield')
+    utc = pytz.UTC
+    now = utc.localize(datetime.now())
+
+    current_player = request.POST.get('player_formfield')
+    current_race = request.POST.get('race_formfield')
+    current_race_object = Race.objects.get(id=current_race)
     race_type = request.POST.get('race_type_formfield')
 
     if race_type == 'quali':
@@ -138,6 +148,11 @@ def tips_input(request):
         if not Race.objects.get(id=current_race).is_sprint:
             sprint_races = Race.objects.filter(is_sprint=True)
             return render(request, 'sprint_not_allowed.html', {'sprints': sprint_races})
+    elif race_type == 'race':
+        # checking if the race already started, if so, disallow user to continue
+        print(now)
+        if now > current_race_object.datetime_of_race_gmt:
+            return render(request, 'betting_after_start.html')
 
     tips = RaceTip.objects.filter(player=current_player, race=current_race)
     form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
