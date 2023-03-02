@@ -23,9 +23,6 @@ def ordering(request):
     current_race: Race = request.POST.get('race_formfield')
     race_type = request.POST.get('race_type_formfield')
 
-    current_race_object = Race.objects.get(id=current_race)
-    print(utc.localize(now) < current_race_object.datetime_of_race_gmt)
-
     if race_type == 'race':
         # getting tips ordered by position in race
         tips = RaceTip.objects.filter(player=current_player, race=current_race).order_by('position')
