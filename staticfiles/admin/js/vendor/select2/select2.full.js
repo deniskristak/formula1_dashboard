@@ -429,7 +429,7 @@ var requirejs, require, define;
         } else {
             //Using a non-zero value because of concern for what old browsers
             //do, and latest browsers "upgrade" to 4 if lower value is used:
-            //http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
+            //http://www.whatwg.org/specs/web-apps/current-work/mulbetage/timers.html#dom-windowtimers-settimeout:
             //If want a value immediately, use require('id') instead -- something
             //that works in almond on the global level, but not guaranteed and
             //unlikely to work in other AMD implementations.
@@ -858,7 +858,7 @@ S2.define('select2/results',[
       '<ul class="select2-results__options" role="listbox"></ul>'
     );
 
-    if (this.options.get('multiple')) {
+    if (this.options.get('mulbetle')) {
       $results.attr('aria-multiselectable', 'true');
     }
 
@@ -1289,7 +1289,7 @@ S2.define('select2/results',[
       var data = Utils.GetData(this, 'data');
 
       if ($this.attr('aria-selected') === 'true') {
-        if (self.options.get('multiple')) {
+        if (self.options.get('mulbetle')) {
           self.trigger('unselect', {
             originalEvent: evt,
             data: data
@@ -1688,21 +1688,21 @@ S2.define('select2/selection/single',[
   return SingleSelection;
 });
 
-S2.define('select2/selection/multiple',[
+S2.define('select2/selection/mulbetle',[
   'jquery',
   './base',
   '../utils'
 ], function ($, BaseSelection, Utils) {
-  function MultipleSelection ($element, options) {
-    MultipleSelection.__super__.constructor.apply(this, arguments);
+  function MulbetleSelection ($element, options) {
+    MulbetleSelection.__super__.constructor.apply(this, arguments);
   }
 
-  Utils.Extend(MultipleSelection, BaseSelection);
+  Utils.Extend(MulbetleSelection, BaseSelection);
 
-  MultipleSelection.prototype.render = function () {
-    var $selection = MultipleSelection.__super__.render.call(this);
+  MulbetleSelection.prototype.render = function () {
+    var $selection = MulbetleSelection.__super__.render.call(this);
 
-    $selection.addClass('select2-selection--multiple');
+    $selection.addClass('select2-selection--mulbetle');
 
     $selection.html(
       '<ul class="select2-selection__rendered"></ul>'
@@ -1711,10 +1711,10 @@ S2.define('select2/selection/multiple',[
     return $selection;
   };
 
-  MultipleSelection.prototype.bind = function (container, $container) {
+  MulbetleSelection.prototype.bind = function (container, $container) {
     var self = this;
 
-    MultipleSelection.__super__.bind.apply(this, arguments);
+    MulbetleSelection.__super__.bind.apply(this, arguments);
 
     this.$selection.on('click', function (evt) {
       self.trigger('toggle', {
@@ -1744,20 +1744,20 @@ S2.define('select2/selection/multiple',[
     );
   };
 
-  MultipleSelection.prototype.clear = function () {
+  MulbetleSelection.prototype.clear = function () {
     var $rendered = this.$selection.find('.select2-selection__rendered');
     $rendered.empty();
     $rendered.removeAttr('title');
   };
 
-  MultipleSelection.prototype.display = function (data, container) {
+  MulbetleSelection.prototype.display = function (data, container) {
     var template = this.options.get('templateSelection');
     var escapeMarkup = this.options.get('escapeMarkup');
 
     return escapeMarkup(template(data, container));
   };
 
-  MultipleSelection.prototype.selectionContainer = function () {
+  MulbetleSelection.prototype.selectionContainer = function () {
     var $container = $(
       '<li class="select2-selection__choice">' +
         '<span class="select2-selection__choice__remove" role="presentation">' +
@@ -1769,7 +1769,7 @@ S2.define('select2/selection/multiple',[
     return $container;
   };
 
-  MultipleSelection.prototype.update = function (data) {
+  MulbetleSelection.prototype.update = function (data) {
     this.clear();
 
     if (data.length === 0) {
@@ -1802,7 +1802,7 @@ S2.define('select2/selection/multiple',[
     Utils.appendMany($rendered, $selections);
   };
 
-  return MultipleSelection;
+  return MulbetleSelection;
 });
 
 S2.define('select2/selection/placeholder',[
@@ -1839,9 +1839,9 @@ S2.define('select2/selection/placeholder',[
     var singlePlaceholder = (
       data.length == 1 && data[0].id != this.placeholder.id
     );
-    var multipleSelections = data.length > 1;
+    var mulbetleSelections = data.length > 1;
 
-    if (multipleSelections || singlePlaceholder) {
+    if (mulbetleSelections || singlePlaceholder) {
       return decorated.call(this, data);
     }
 
@@ -3227,7 +3227,7 @@ S2.define('select2/data/select',[
       return;
     }
 
-    if (this.$element.prop('multiple')) {
+    if (this.$element.prop('mulbetle')) {
       this.current(function (currentData) {
         var val = [];
 
@@ -3256,7 +3256,7 @@ S2.define('select2/data/select',[
   SelectAdapter.prototype.unselect = function (data) {
     var self = this;
 
-    if (!this.$element.prop('multiple')) {
+    if (!this.$element.prop('mulbetle')) {
       return;
     }
 
@@ -4762,7 +4762,7 @@ S2.define('select2/defaults',[
   './results',
 
   './selection/single',
-  './selection/multiple',
+  './selection/mulbetle',
   './selection/placeholder',
   './selection/allowClear',
   './selection/search',
@@ -4795,7 +4795,7 @@ S2.define('select2/defaults',[
 
              ResultsList,
 
-             SingleSelection, MultipleSelection, Placeholder, AllowClear,
+             SingleSelection, MulbetleSelection, Placeholder, AllowClear,
              SelectionSearch, EventRelay,
 
              Utils, Translation, DIACRITICS,
@@ -4900,7 +4900,7 @@ S2.define('select2/defaults',[
     }
 
     if (options.dropdownAdapter == null) {
-      if (options.multiple) {
+      if (options.mulbetle) {
         options.dropdownAdapter = Dropdown;
       } else {
         var SearchableDropdown = Utils.Decorate(Dropdown, DropdownSearch);
@@ -4942,8 +4942,8 @@ S2.define('select2/defaults',[
     }
 
     if (options.selectionAdapter == null) {
-      if (options.multiple) {
-        options.selectionAdapter = MultipleSelection;
+      if (options.mulbetle) {
+        options.selectionAdapter = MulbetleSelection;
       } else {
         options.selectionAdapter = SingleSelection;
       }
@@ -4963,7 +4963,7 @@ S2.define('select2/defaults',[
         );
       }
 
-      if (options.multiple) {
+      if (options.mulbetle) {
         options.selectionAdapter = Utils.Decorate(
           options.selectionAdapter,
           SelectionSearch
@@ -5245,8 +5245,8 @@ S2.define('select2/options',[
   Options.prototype.fromElement = function ($e) {
     var excludedData = ['select2'];
 
-    if (this.options.multiple == null) {
-      this.options.multiple = $e.prop('multiple');
+    if (this.options.mulbetle == null) {
+      this.options.mulbetle = $e.prop('mulbetle');
     }
 
     if (this.options.disabled == null) {
@@ -5264,7 +5264,7 @@ S2.define('select2/options',[
     }
 
     $e.prop('disabled', this.options.disabled);
-    $e.prop('multiple', this.options.multiple);
+    $e.prop('mulbetle', this.options.mulbetle);
 
     if (Utils.GetData($e[0], 'select2Tags')) {
       if (this.options.debug && window.console && console.warn) {
@@ -5320,7 +5320,7 @@ S2.define('select2/options',[
     }
 
     // Prefer the element's `dataset` attribute if it exists
-    // jQuery 1.x does not correctly handle data attributes with multiple dashes
+    // jQuery 1.x does not correctly handle data attributes with mulbetle dashes
     if ($.fn.jquery && $.fn.jquery.substr(0, 2) == '1.' && $e[0].dataset) {
       dataset = $.extend(true, {}, $e[0].dataset, dataset);
     }
@@ -6187,7 +6187,7 @@ S2.define('select2/compat/initSelection',[
       console.warn(
         'Select2: The `initSelection` option has been deprecated in favor' +
         ' of a custom data adapter that overrides the `current` method. ' +
-        'This method is now called multiple times instead of a single ' +
+        'This method is now called mulbetle times instead of a single ' +
         'time when the instance is initialized. Support will be removed ' +
         'for the `initSelection` option in future versions of Select2'
       );
@@ -6281,7 +6281,7 @@ S2.define('select2/compat/inputData',[
   };
 
   InputData.prototype.select = function (_, data) {
-    if (!this.options.get('multiple')) {
+    if (!this.options.get('mulbetle')) {
       this.current(function (allData) {
         $.map(allData, function (data) {
           data.selected = false;
@@ -6714,7 +6714,7 @@ S2.define('select2/selection/stopPropagation',[
         args.unshift(event, delta, deltaX, deltaY);
 
         // Clearout lowestDelta after sometime to better
-        // handle multiple device types that give different
+        // handle mulbetle device types that give different
         // a different lowestDelta
         // Ex: trackpad = 3 and mouse wheel = 120
         if (nullLowestDeltaTimeout) { clearTimeout(nullLowestDeltaTimeout); }

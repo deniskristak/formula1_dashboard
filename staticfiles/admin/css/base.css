@@ -508,7 +508,7 @@ select {
     height: 30px;
 }
 
-select[multiple] {
+select[mulbetle] {
     /* Allow HTML size attribute to override the height in the rule above. */
     height: auto;
     min-height: 150px;

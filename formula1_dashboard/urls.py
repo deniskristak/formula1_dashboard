@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from tips_dash.dash_app import dash_app
+from bets_dash.dash_app import dash_app
 
 urlpatterns = [
     # this is needed for dash to work
     path('', include('django_plotly_dash.urls')),
     path("admin/", admin.site.urls),
-    path('', include('tips_input.urls')),
-    path('dash/', include('tips_dash.urls')),
+    path('', include('bets_input.urls')),
+    path('dash/', include('bets_dash.urls')),
 ]

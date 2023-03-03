@@ -20,13 +20,13 @@ Create database:
 python manage.py migrate
 ```
 #### Be careful with this one
-Remove all data about drivers, tips, races etc. from database.
+Remove all data about drivers, bets, races etc. from database.
 ```bash
 python manage.py remove_all_from_database
 ```
 
 Populate database with test data:
-Note - this should only be run once, as it will duplicate the data if ran multiple times on one database.
+Note - this should only be run once, as it will duplicate the data if ran mulbetle times on one database.
 ```bash
 python manage.py populate_database
 ```
@@ -47,8 +47,8 @@ Go to that localhost address
 
 ## Notes
 1. DB used - db.sqlite3
-2. Find the command dedicated to the results processing in `tips_dash/management/commands/edov_cmd.py`
+2. Find the command dedicated to the results processing in `bets_dash/management/commands/edov_cmd.py`
 3. Command can be run with `python manage.py edkov_cmd`
 4. All additional info (w.r.t retrieval of object from DB, creating new objects etc.) can be found in comments of the command's code
-5. Newly created models (results, points) are defined in `tips_dash/models.py`
+5. Newly created models (results, points) are defined in `bets_dash/models.py`
 6. To populate database with test results, run `python manage.py populate_database`

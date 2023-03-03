@@ -34,8 +34,8 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    "tips_input.apps.TipsInputConfig",
-    "tips_dash.apps.TipsDashConfig",
+    "bets_input.apps.BetsInputConfig",
+    "bets_dash.apps.BetsDashConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

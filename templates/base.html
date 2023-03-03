@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'tips_input/style.css' %}">
+    <link rel="stylesheet" href="{% static 'bets_input/style.css' %}">
 
     <!-- jQuery and Bootstrap CSS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/htmx.org@1.6.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
-	<title>{% block title %}F1 Dashboard tips{% endblock %}</title>
+	<title>{% block title %}F1 Dashboard bets{% endblock %}</title>
 	<style>
 		.asteriskField {
 			display: none;
@@ -26,14 +26,12 @@
 </head>
 <body>
     <div class="jumbotron" style="display:flex;flex-wrap: wrap;justify-content: space-between;">
-        <a class="h3" href={% url 'tips_input:index' %}>Tips registration</a>
-        <a class="h3" href={% url 'tips_dash:index' %}>Result dashboard</a>
+        <a class="h3" href={% url 'bets_input:index' %}>Bets registration</a>
+        <a class="h3" href={% url 'bets_dash:index' %}>Result dashboard</a>
     </div>
-	<div class="container mb-4">
-		{% block content %}
-		{% endblock %}
-	</div>
-    <script>
+    {% block base %}
+	{% endblock %}
+	<script>
         htmx.onLoad(function(content) {
             var sortables = content.querySelectorAll(".sortable");
             for (var i = 0; i < sortables.length; i++) {

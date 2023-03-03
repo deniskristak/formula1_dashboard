@@ -1,0 +1,6 @@
+RACE_SLIDER = "race-slider"
+PLAYER_DROPDOWN = "player-dropdown"
+RACETYPE_DROPDOWN = "race-type-dropdown"
+SAVE_TO_DB_BUTTON = "save-to-db-button"
+DRAG_CONTAINER_DRIVERS = "drag-container-drivers"
+CURRENT_ORDER_OF_DRIVERS = "current-order-of-drivers"
