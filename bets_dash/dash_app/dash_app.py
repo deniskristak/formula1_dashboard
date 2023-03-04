@@ -10,6 +10,7 @@ from .components.sliders import race_slider
 from .components.dropdowns import dropdown_players, dropdown_helper, dropdown_race_type
 from .components.text_blocks import race_type_textblock, results_textblock, player_bets_textblock, \
     player_points_textblock
+from .components.graphs.results_overview import main_graph
 
 from .components.styles import style_env
 
@@ -26,6 +27,9 @@ app.layout = html.Div(
                 ],
             ),
             html.Hr(),
+            html.Div(
+                main_graph
+            ),
             # # this is rendered by race_slider's callback function
             html.Div(id='race-details'),
             html.Hr(),
