@@ -15,12 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from bets_dash.dash_app import dash_app
+from django.db.utils import OperationalError
+from django.core.exceptions import ObjectDoesNotExist
+
+# weird error that happens when performing migrate (completely unrelated to the Dash plugin)
+try:
+    from bets_dash.dash_app import dash_app
+except OperationalError as err:
+    print(err)
+except IndexError as err:
+    print(err)
+except ObjectDoesNotExist as err:
+    print(err)
 
 urlpatterns = [
     # this is needed for dash to work
-    path('', include('django_plotly_dash.urls')),
+    path("", include("django_plotly_dash.urls")),
     path("admin/", admin.site.urls),
-    path('', include('bets_input.urls')),
-    path('dash/', include('bets_dash.urls')),
+    path("", include("bets_input.urls")),
+    path("dash/", include("bets_dash.urls")),
 ]

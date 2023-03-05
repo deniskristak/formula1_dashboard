@@ -8,9 +8,12 @@ class Results(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField()
+    position_quali = models.PositiveSmallIntegerField()
+    position_sprint = models.PositiveSmallIntegerField()
     fastest_lap = models.BooleanField(default=False)
     dotd = models.BooleanField(default=False)
     dnf = models.BooleanField(default=False)
+    dnf_sprint = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.race} - {self.driver} - {self.position}"
