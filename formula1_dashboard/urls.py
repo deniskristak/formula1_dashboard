@@ -15,18 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError, ProgrammingError
 from django.core.exceptions import ObjectDoesNotExist
 
 # weird error that happens when performing migrate (completely unrelated to the Dash plugin)
 try:
     from bets_dash.dash_app import dash_app
 except OperationalError as err:
-    print(err)
+    print(f"Probably a false error, but here it goes: \n {err}")
 except IndexError as err:
-    print(err)
+    print(f"Probably a false error, but here it goes: \n {err}")
 except ObjectDoesNotExist as err:
-    print(err)
+    print(f"Probably a false error, but here it goes: \n {err}")
+except ProgrammingError as err:
+    print(f"Probably a false error, but here it goes: \n {err}")
 
 urlpatterns = [
     # this is needed for dash to work

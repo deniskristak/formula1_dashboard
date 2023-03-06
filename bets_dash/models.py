@@ -1,7 +1,7 @@
 from django.db import models
 
 # importing basic models from the input application as we can reuse them for displaying data + creating new models
-from bets_input.models import Player, Driver, Race, RaceBet, Team
+from bets_input.models import Player, Driver, Race
 
 
 class Results(models.Model):
