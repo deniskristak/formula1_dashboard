@@ -3,7 +3,7 @@ from typing import Tuple
 import logging
 
 # import any model you need:
-from bets_input.models import Player, RaceBet, Race, Driver, Team
+from bets_input.models import Player, RaceBet, Race, PlayerPlacedBet
 from bets_dash.models import Results, PlayerPoints
 
 logging.basicConfig(

@@ -10,6 +10,7 @@ crispy-bootstrap4 = "*"
 django-plotly-dash = "*"
 pandas = "*"
 django-heroku = "*"
+fastf1 = "*"
 
 [dev-packages]
 

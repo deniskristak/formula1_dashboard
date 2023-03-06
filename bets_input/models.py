@@ -24,12 +24,14 @@ class Race(models.Model):
     country = models.CharField(max_length=300)
     is_sprint = models.BooleanField(default=False)
     datetime_of_race_gmt = models.DateTimeField(auto_now=False)
+    datetime_of_quali_gmt = models.DateTimeField(auto_now=False)
+    datetime_of_sprint_gmt = models.DateTimeField(auto_now=False)
 
     def __str__(self):
         return f"{self.name}"
 
     class Meta:
-        ordering = ['datetime_of_race_gmt']
+        ordering = ["datetime_of_race_gmt"]
 
 
 class Player(models.Model):
@@ -56,4 +58,19 @@ class RaceBet(models.Model):
         return f"{self.player}-{self.race}-{self.driver} POS: {self.position} SPRINT_POS: {self.position_sprint} QUALI_POS: {self.position_quali}"
 
     class Meta:
-        ordering = ['position']
+        ordering = ["position"]
+
+
+class RaceType(models.TextChoices):
+    RACE = "race", "race"
+    SPRINT = "sprint", "sprint"
+    QUALI = "quali", "quali"
+
+
+class PlayerPlacedBet(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race_type = models.CharField(
+        max_length=10,
+        choices=RaceType.choices,
+    )
