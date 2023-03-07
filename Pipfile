@@ -11,6 +11,7 @@ django-plotly-dash = "*"
 pandas = "*"
 django-heroku = "*"
 fastf1 = "*"
+gunicorn = "*"
 
 [dev-packages]
 
