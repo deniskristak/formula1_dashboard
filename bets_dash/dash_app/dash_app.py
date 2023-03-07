@@ -1,3 +1,6 @@
+from datetime import datetime
+
+import pytz
 from dash import Output, Input, State, html, ClientsideFunction
 from dash_bootstrap_components.themes import BOOTSTRAP
 from django_plotly_dash import DjangoDash
@@ -17,6 +20,7 @@ from .components.text_blocks import (
 )
 from .components.graphs import results_overview
 from .components.styles import style_env
+from .components.sections import player_result_section
 
 app = DjangoDash("MainDashApp", external_stylesheets=[BOOTSTRAP])
 app.title = "F1 2022 - Result Dashboard"
@@ -52,18 +56,8 @@ app.layout = html.Div(
             )
         ),
         html.Hr(),
-        html.Div(
-            children=[
-                dbc.Row(
-                    children=[
-                        dbc.Col(id="player-points-total"),
-                        dbc.Col(id="show-points"),
-                        dbc.Col(id="results"),
-                        dbc.Col(id="player_bets"),
-                    ]
-                )
-            ]
-        ),
+        html.Div(id="player-result-section"),
+        html.Hr(),
         html.Hr(),
         html.Div(results_overview.render(app=app)),
         html.Hr(),
@@ -101,12 +95,32 @@ def race_types(selected_race_index):
     return [dropdown_race_type.render(app=app, race_types=race_types)]
 
 
-# todo following 3 methods should apply for sprint and quali
-# for that, we need to think about a suitable layout
-# and also we need to assess each race event (quali/sprint/race) separately
-# todo we also have new table - palyerplacedbet - which we can use when calculating points
 @app.callback(
-    Output("player_bets", component_property="children"),
+    Output("player-result-section", component_property="children"),
+    Input(ids.RACE_SLIDER, component_property="value"),
+    Input(ids.RACETYPE_DROPDOWN, component_property="value"),
+)
+def player_result_block(selected_race_index, selected_racetype):
+    utc = pytz.UTC
+    now = utc.localize(datetime.now())
+    # selections in dash index from 0
+    race_id = selected_race_index + 1
+    selected_race_obj = Race.objects.get(id=race_id)
+    event_in_future = False
+    if selected_racetype == "quali" and now < selected_race_obj.datetime_of_quali_gmt:
+        event_in_future = True
+    elif (
+        selected_racetype == "sprint" and now < selected_race_obj.datetime_of_sprint_gmt
+    ):
+        event_in_future = True
+    elif selected_racetype == "race" and now < selected_race_obj.datetime_of_race_gmt:
+        event_in_future = True
+
+    return player_result_section.render(app=app, event_in_future=event_in_future)
+
+
+@app.callback(
+    Output("results", component_property="children"),
     Input(ids.RACE_SLIDER, component_property="value"),
     Input(ids.RACETYPE_DROPDOWN, component_property="value"),
 )
@@ -116,11 +130,11 @@ def results(selected_race_index, racetype):
     selected_race_obj = Race.objects.get(id=race_id)
     results = Results.objects.filter(race=selected_race_obj)
 
-    return results_textblock.render(app=app, results=results)
+    return results_textblock.render(app=app, results=results, racetype=racetype)
 
 
 @app.callback(
-    Output("results", component_property="children"),
+    Output("player_bets", component_property="children"),
     Input(ids.RACE_SLIDER, component_property="value"),
     Input(ids.RACETYPE_DROPDOWN, component_property="value"),
     Input(ids.PLAYER_DROPDOWN, component_property="value"),
@@ -143,7 +157,10 @@ def player_bets(selected_race_index, racetype, player):
     )
 
     return player_bets_textblock.render(
-        app=app, player_bets=player_bets, bet_was_registered=bet_was_registered
+        app=app,
+        player_bets=player_bets,
+        bet_was_registered=bet_was_registered,
+        racetype=racetype,
     )
 
 

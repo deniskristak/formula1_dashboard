@@ -12,6 +12,5 @@ def render(app: DjangoDash, player_points, player_nickname) -> html.Div:
             html.H3(f"Total points ({player_nickname}):"),
             html.Hr(),
             html.H2(f"{player_points}"),
-            html.Hr(),
         ]
     )

@@ -15,7 +15,7 @@ def render(app: DjangoDash) -> html.Div:
 
     return html.Div(
         children=[
-            html.H3("Results overview"),
+            html.H3("Final results overview"),
             dcc.Graph(figure=fig, style=style_env, id=ids.RESULTS_OVERVIEW),
         ],
     )
