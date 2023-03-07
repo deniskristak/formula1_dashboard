@@ -9,10 +9,9 @@ def render(app: DjangoDash, player_points, player_nickname) -> html.Div:
     return html.Div(
         children=[
             html.Hr(),
-            html.H3(f"{player_nickname} obtained:"),
+            html.H3(f"Total points ({player_nickname}):"),
             html.Hr(),
-            html.H2(f"{player_points} points"),
-            html.H4("for this event"),
+            html.H2(f"{player_points}"),
             html.Hr(),
         ]
     )

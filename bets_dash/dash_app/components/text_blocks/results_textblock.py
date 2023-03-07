@@ -11,14 +11,12 @@ def render(app: DjangoDash, results) -> html.Div:
         result_rows.append(
             dbc.Row(
                 [
-                    html.H5(f"P{result.position} {result.driver.name}", style=style_env),
+                    html.H5(
+                        f"P{result.position} {result.driver.name}", style=style_env
+                    ),
                 ]
             )
         )
     return html.Div(
-        children=[
-            html.H3("Results"),
-            html.Hr(),
-            html.Div(result_rows)
-        ]
+        children=[html.Hr(), html.H3("Results"), html.Hr(), html.Div(result_rows)]
     )

@@ -199,7 +199,7 @@ input[type="submit"], button {
         height: 36px;
     }
 
-    .form-row select[mulbetle] {
+    .form-row select[multiple] {
         height: auto;
         min-height: 0;
     }

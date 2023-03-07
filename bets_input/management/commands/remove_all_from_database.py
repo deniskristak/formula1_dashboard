@@ -17,7 +17,7 @@ class Command(BaseCommand):
             Driver.objects.all().delete()
             Team.objects.all().delete()
             Results.objects.all().delete()
-            PlayerPoints.objects.all().delete()
+            # PlayerPoints.objects.all().delete()
 
             self.stdout.write(
                 self.style.SUCCESS("Successfully removed all app data from database")

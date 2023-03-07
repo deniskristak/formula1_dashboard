@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db" uuid="acd8cf67-c0c3-43de-9747-bcae56dc968a">
+    <data-source source="LOCAL" name="d9h1kuhut05m3n@ec2-3-234-131-8.compute-1.amazonaws.com" uuid="61660aec-766c-43a9-8915-dea93cd7f051">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-3-234-131-8.compute-1.amazonaws.com:5432/d9h1kuhut05m3n</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="db" uuid="0fdb4d82-8d3b-43b9-afd3-2546770d1bbd">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
@@ -12,13 +19,6 @@
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.40.1/sqlite-jdbc-3.40.1.jar</url>
         </library>
       </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="d9h1kuhut05m3n@ec2-3-234-131-8.compute-1.amazonaws.com" uuid="61660aec-766c-43a9-8915-dea93cd7f051">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://ec2-3-234-131-8.compute-1.amazonaws.com:5432/d9h1kuhut05m3n</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
 </project>

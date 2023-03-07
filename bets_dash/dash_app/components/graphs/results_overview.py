@@ -26,7 +26,7 @@ def playerpoints2df():
     races = Race.objects.all()
     d = {
         player.nickname: {
-            race.name: PlayerPoints.objects.get(player=player, race=race).points
+            race.name: PlayerPoints.objects.get(player=player, race=race).points_race
             for race in races
         }
         for player in players
