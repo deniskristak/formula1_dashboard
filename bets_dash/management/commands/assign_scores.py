@@ -92,16 +92,16 @@ def score_order(driver_name, dpos, drivers_sorted, weights):
         idx = dpos - 1
         if driver_name == drivers_sorted[idx]:
             score += big
-        elif dpos != 0:
+        if idx != 0:
             if driver_name == drivers_sorted[idx - 1]:
-                score += big
-        elif dpos != 19:
+                score += medium
+        if idx != 19:
             if driver_name == drivers_sorted[idx + 1]:
                 score += medium
-        elif dpos not in [0, 1]:
+        if idx not in [0, 1]:
             if driver_name == drivers_sorted[idx - 2]:
                 score += small
-        elif dpos not in [18, 19]:
+        if idx not in [18, 19]:
             if driver_name == drivers_sorted[idx + 2]:
                 score += small
     return score
@@ -127,7 +127,6 @@ def score_player_race(
     dnfsplayer_race = []
     for betrow in bets:
         driver_name = betrow.driver.name
-
         score += score_order(
             driver_name=driver_name,
             dpos=betrow.position,
@@ -199,7 +198,6 @@ def score_player_quali(bets: List[RaceBet], drivers_sorted: List[str]) -> int:
     """
 
     score = 0
-    print(bets)
     for betrow in bets:
         betrow_score = score_order(
             driver_name=betrow.driver.name,
@@ -207,10 +205,6 @@ def score_player_quali(bets: List[RaceBet], drivers_sorted: List[str]) -> int:
             drivers_sorted=drivers_sorted,
             weights=[1, 0, 0],
         )
-        print(betrow.driver.name)
-        print(betrow.position_quali)
-        print(drivers_sorted)
-        print(betrow_score)
         score += betrow_score
     return score
 
