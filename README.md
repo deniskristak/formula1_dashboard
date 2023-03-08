@@ -4,11 +4,6 @@ Install all dependencies into pipenv environment:
 pipenv install
 ```
 
-If a new dependency is needed, install it with
-```bash
-pipenv install pandas
-```
-
 Activate `pipenv shell` (shell that uses python interpreter with all the required dependencies).
 Use this everytime you run any command in this project.
 ```bash
@@ -19,16 +14,17 @@ Create database:
 ```bash
 python manage.py migrate
 ```
-#### Be careful with this one
-Remove all data about drivers, bets, races etc. from database.
-```bash
-python manage.py remove_all_from_database
-```
 
 Populate database with test data:
 Note - this should only be run once, as it will duplicate the data if ran mulbetle times on one database.
 ```bash
 python manage.py populate_database
+```
+
+Populate database with test data:
+Note - this should only be run once, as it will duplicate the data if ran mulbetle times on one database.
+```bash
+python manage.py populate_db_real_results
 ```
 
 ## Usage:
@@ -47,8 +43,10 @@ Go to that localhost address
 
 ## Notes
 1. DB used - db.sqlite3
-2. Find the command dedicated to the results processing in `bets_dash/management/commands/edov_cmd.py`
-3. Command can be run with `python manage.py edkov_cmd`
-4. All additional info (w.r.t retrieval of object from DB, creating new objects etc.) can be found in comments of the command's code
-5. Newly created models (results, points) are defined in `bets_dash/models.py`
-6. To populate database with test results, run `python manage.py populate_database`
+2. If you want to wipe the database
+    #### Be careful with this one
+    Remove all data about drivers, bets, races etc. from database.
+    ```bash
+    python manage.py remove_all_from_database
+    ```
+6. To populate database with test results, run `python manage.py populate_db_test_results`
