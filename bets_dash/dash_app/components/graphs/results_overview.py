@@ -1,10 +1,12 @@
+from collections import defaultdict
+
 import pandas as pd
 from dash import dcc, html
 import plotly.express as px
 from django_plotly_dash import DjangoDash
 
 from bets_dash.dash_app.components import ids
-from bets_dash.models import PlayerPoints
+from bets_dash.models import PlayerPoint
 from bets_input.models import Race, RaceBet, Player
 from bets_dash.dash_app.components.styles import style_env
 
@@ -24,11 +26,13 @@ def render(app: DjangoDash) -> html.Div:
 def playerpoints2df():
     players = Player.objects.all()
     races = Race.objects.all()
-    d = {
-        player.nickname: {
-            race.name: PlayerPoints.objects.get(player=player, race=race).points_race
-            for race in races
-        }
-        for player in players
-    }
-    return pd.DataFrame(d)
+    data = defaultdict(lambda: defaultdict(dict))
+    for player in players:
+        for race in races:
+            player_points = PlayerPoint.objects.filter(player=player, race=race)
+            if player_points.exists():
+                data[player.nickname][race.name] = player_points.first().points_race
+            else:
+                data[player.nickname][race.name] = 0
+
+    return pd.DataFrame(data)

@@ -5,9 +5,7 @@ from bets_input.models import RaceBet
 from bets_dash.dash_app.components.styles import style_env
 
 
-def render(
-    app: DjangoDash, player_bets: list[RaceBet], bet_was_registered, racetype
-) -> html.Div:
+def render(app: DjangoDash, race, player, bet_was_registered, racetype) -> html.Div:
     if not bet_was_registered:
         return html.Div(
             children=[
@@ -18,6 +16,19 @@ def render(
             ],
         )
     bet_rows = []
+    if racetype == "quali":
+        player_bets = RaceBet.objects.filter(race=race, player=player).order_by(
+            "position_quali"
+        )
+    elif racetype == "sprint":
+        player_bets = RaceBet.objects.filter(race=race, player=player).order_by(
+            "position_sprint"
+        )
+    else:
+        player_bets = RaceBet.objects.filter(race=race, player=player).order_by(
+            "position"
+        )
+
     for bet in player_bets:
         if racetype == "quali":
             position = bet.position_quali

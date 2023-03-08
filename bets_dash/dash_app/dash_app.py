@@ -7,7 +7,12 @@ from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 
 from bets_input.models import Race, RaceBet, Player, PlayerPlacedBet
-from bets_dash.models import Results, PlayerPoints, PlayerPointsTotal
+from bets_dash.models import (
+    Results,
+    PlayerPoint,
+    PlayerPointsTotal,
+    EventAssessmentStatus,
+)
 from .components import ids
 from .components.sliders import race_slider
 from .components.dropdowns import dropdown_players, dropdown_helper, dropdown_race_type
@@ -101,20 +106,14 @@ def race_types(selected_race_index):
     Input(ids.RACETYPE_DROPDOWN, component_property="value"),
 )
 def player_result_block(selected_race_index, selected_racetype):
-    utc = pytz.UTC
-    now = utc.localize(datetime.now())
     # selections in dash index from 0
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
-    event_in_future = False
-    if selected_racetype == "quali" and now < selected_race_obj.datetime_of_quali_gmt:
-        event_in_future = True
-    elif (
-        selected_racetype == "sprint" and now < selected_race_obj.datetime_of_sprint_gmt
-    ):
-        event_in_future = True
-    elif selected_racetype == "race" and now < selected_race_obj.datetime_of_race_gmt:
-        event_in_future = True
+
+    # check if event has already been assessed
+    event_in_future = not EventAssessmentStatus.objects.filter(
+        race=selected_race_obj, race_type=selected_racetype, was_assessed=True
+    ).exists()
 
     return player_result_section.render(app=app, event_in_future=event_in_future)
 
@@ -128,9 +127,8 @@ def results(selected_race_index, racetype):
     # selections in dash index from 0
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
-    results = Results.objects.filter(race=selected_race_obj)
 
-    return results_textblock.render(app=app, results=results, racetype=racetype)
+    return results_textblock.render(app=app, race=selected_race_obj, racetype=racetype)
 
 
 @app.callback(
@@ -144,9 +142,7 @@ def player_bets(selected_race_index, racetype, player):
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
     selected_player_obj = Player.objects.get(nickname=player)
-    player_bets = RaceBet.objects.filter(
-        race=selected_race_obj, player=selected_player_obj
-    )
+
     bet_was_registered = (
         False
         if PlayerPlacedBet.objects.filter(
@@ -158,7 +154,8 @@ def player_bets(selected_race_index, racetype, player):
 
     return player_bets_textblock.render(
         app=app,
-        player_bets=player_bets,
+        race=selected_race_obj,
+        player=selected_player_obj,
         bet_was_registered=bet_was_registered,
         racetype=racetype,
     )
@@ -175,16 +172,20 @@ def player_points(selected_race_index, racetype, player):
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
 
-    player_points_obj = PlayerPoints.objects.get(
-        race=selected_race_obj, player=Player.objects.get(nickname=player)
-    )
+    try:
+        player_points_obj = PlayerPoint.objects.get(
+            race=selected_race_obj, player=Player.objects.get(nickname=player)
+        )
+        points_exist = True
+    except PlayerPoint.DoesNotExist:
+        points_exist = False
 
     if racetype == "quali":
-        player_points = player_points_obj.points_quali
+        player_points = player_points_obj.points_quali if points_exist else 0
     elif racetype == "sprint":
-        player_points = player_points_obj.points_sprint
+        player_points = player_points_obj.points_sprint if points_exist else 0
     else:
-        player_points = player_points_obj.points_race
+        player_points = player_points_obj.points_race if points_exist else 0
 
     return player_points_textblock.render(
         app=app, player_points=player_points, player_nickname=player

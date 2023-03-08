@@ -20,6 +20,7 @@ class Command(BaseCommand):
                 name=driver[1],
                 default_position=driver[2],
                 team=Team.objects.get(pk=driver[3]),
+                abbreviation=driver[4],
             )
             new_driver.save()
 

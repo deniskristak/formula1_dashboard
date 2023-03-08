@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.db.utils import OperationalError, ProgrammingError
 from django.core.exceptions import ObjectDoesNotExist
 
-# # weird error that happens when performing migrate (completely unrelated to the Dash plugin)
+# weird error that happens when performing migrate (completely unrelated to the Dash plugin)
 try:
     from bets_dash.dash_app import dash_app
 except OperationalError as err:

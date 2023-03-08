@@ -175,7 +175,6 @@ def bets_input(request):
             return render(request, "betting_after_start.html")
     elif race_type == "race":
         # checking if the race already started, if so, disallow user to continue
-        print(now)
         if now > current_race_object.datetime_of_race_gmt:
             return render(request, "betting_after_start.html")
 

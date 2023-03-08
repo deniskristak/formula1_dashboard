@@ -6,8 +6,15 @@ from bets_dash.models import Results
 from bets_dash.dash_app.components.styles import style_env
 
 
-def render(app: DjangoDash, results: list[Results], racetype) -> html.Div:
+def render(app: DjangoDash, race, racetype) -> html.Div:
     result_rows = []
+    if racetype == "quali":
+        results = Results.objects.filter(race=race).order_by("position_quali")
+    elif racetype == "sprint":
+        results = Results.objects.filter(race=race).order_by("position_sprint")
+    else:
+        results = Results.objects.filter(race=race).order_by("position")
+
     for result in results:
         dnf = False
         fastest_lap = False
