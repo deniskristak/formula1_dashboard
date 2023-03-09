@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from bets_input.models import Race, Driver
 from bets_dash.models import Results
 
-from .real_results.real_data import events
+from bets_dash.management.commands.real_data.real_data_results import events
 
 
 class Command(BaseCommand):

@@ -15,16 +15,26 @@ Create database:
 python manage.py migrate
 ```
 
-Populate database with test data:
-Note - this should only be run once, as it will duplicate the data if ran mulbetle times on one database.
+Populate database with **NECESSARY DATA** (drivers, teams, races ... )
+
+*NOTE: If you need to reset database, run `remove_all_from_database` first.*
 ```bash
 python manage.py populate_database
 ```
 
-Populate database with test data:
-Note - this should only be run once, as it will duplicate the data if ran mulbetle times on one database.
+Populate database with **REAL RESULT** data:
 ```bash
 python manage.py populate_db_real_results
+```
+
+Populate database with **REAL BETS** data:
+```bash
+python manage.py populate_db_real_bets
+```
+
+Calculate **SCORES**:
+```bash
+python manage.py assign_scores
 ```
 
 ## Usage:
@@ -49,4 +59,4 @@ Go to that localhost address
     ```bash
     python manage.py remove_all_from_database
     ```
-6. To populate database with test results, run `python manage.py populate_db_test_results`
+3. To populate database with test **RESULTS**, run `python manage.py populate_db_test_results`

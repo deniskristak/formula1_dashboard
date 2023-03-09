@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 # import any model you need:
 from bets_input.models import Race, Driver
 from bets_dash.models import Results
-from .test_results.test_data import test_results
+from bets_dash.management.commands.test_data.test_data_results import test_results
 
 
 class Command(BaseCommand):
