@@ -194,3 +194,4 @@ cython_debug/
 
 #own ignores
 .vscode/launch.json
+.project_venv/

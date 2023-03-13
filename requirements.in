@@ -1,0 +1,8 @@
+django
+django-crispy-forms
+crispy-bootstrap4
+django-plotly-dash
+pandas
+django-heroku
+gunicorn
+pip-tools

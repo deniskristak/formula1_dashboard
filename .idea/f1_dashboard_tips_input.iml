@@ -13,8 +13,10 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Pipenv (formula1_dashboard)" jdkType="Python SDK" />
+    <content url="file://$MODULE_DIR$">
+      <excludePattern pattern=".project_venv" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.10 (formula1_dashboard)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
