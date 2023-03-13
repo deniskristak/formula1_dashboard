@@ -1,13 +1,18 @@
 ## First setup:
-Install all dependencies into pipenv environment:
+Create a new venv environment:
 ```bash
-pipenv install
+python -m venv .venv
 ```
 
-Activate `pipenv shell` (shell that uses python interpreter with all the required dependencies).
-Use this everytime you run any command in this project.
+Activate venv environment (sets you environment so that it uses that specific python interpreter).<br> 
+**Do this anytime you run any command in this project**
 ```bash
-pipenv shell
+source ./venv/bin/activate
+```
+
+Install required packages (after setting environment in the previous step):
+```bash
+pip install -r requirements.txt
 ```
 
 Create database:
@@ -38,13 +43,12 @@ python manage.py assign_scores
 ```
 
 ## Usage:
-Activate pipenv shell
+Activate the virtual environment:
 ```bash
-pipenv shell
+source .venv/bin/activate
 ```
 
 Run the server:
-Activate pipenv shell
 ```bash
 python manage.py runserver
 ```
