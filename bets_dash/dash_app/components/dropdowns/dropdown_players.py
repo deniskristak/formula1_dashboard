@@ -1,5 +1,4 @@
-from dash import Dash, dcc, html
-import dash_bootstrap_components as dbc
+from dash import dcc, html
 from django_plotly_dash import DjangoDash
 
 from bets_dash.dash_app.components.styles import style_env
@@ -19,6 +18,6 @@ def render(app: DjangoDash) -> html.Div:
                 options=to_dropdown_options(players_nicknames),
                 value=players_nicknames[0],
                 style=style_env,
-            )
+            ),
         ],
     )

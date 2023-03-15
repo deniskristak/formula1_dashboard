@@ -1,6 +1,7 @@
+import string
+
 from django.core.management.base import BaseCommand, CommandError
 from typing import Dict, List, Set
-import logging
 
 # import any model you need:
 from bets_input.models import Player, RaceBet, Race, PlayerPlacedBet
@@ -9,10 +10,6 @@ from bets_dash.models import (
     PlayerPoint,
     PlayerPointsTotal,
     EventAssessmentStatus,
-)
-
-logging.basicConfig(
-    filename="bets_dash/management/scores.log", filemode="w", level=logging.INFO
 )
 
 
@@ -37,9 +34,7 @@ def transform_results(
     """
 
     truelist_quali = [[result.driver.name, result.position_quali] for result in results]
-    truelist_sprint = [
-        [result.driver.name, result.position_sprint] for result in results
-    ]
+    truelist_sprint = [[result.driver.name, result.position_sprint] for result in results]
     truelist_race = [[result.driver.name, result.position] for result in results]
     dnfs_race = [result.driver.name for result in results if result.dnf]
     dnfs_sprint = [result.driver.name for result in results if result.dnf_sprint]
@@ -70,7 +65,7 @@ def transform_results(
 
 
 # todo: mistake is probably here, since t19829962his method keeps printing weird points
-def score_order(driver_name, dpos, drivers_sorted, weights):
+def score_order(driver_name: str, dpos: int, drivers_sorted: List[str], weights: List[int]):
     """Score the order.
 
     Parameters:
@@ -81,7 +76,7 @@ def score_order(driver_name, dpos, drivers_sorted, weights):
     weights : (nx3) array
 
     Returns
-    -----------
+    -------
     score : int
     """
 
@@ -108,16 +103,16 @@ def score_order(driver_name, dpos, drivers_sorted, weights):
 
 
 def score_player_race(
-    bets: List[RaceBet], drivers_sorted, dotd, fastest_lap, dnfs_race
+    bets: List[RaceBet], drivers_sorted: List[str], dotd: str, fastest_lap: str, dnfs_race: List[str]
 ) -> int:
     """Score a player's bet against truth.
 
     Parameters
     ----------
-    :param bets : RaceBet
-    :param results : List[Results]
+    bets : RaceBet
+    results : List[Results]
 
-    :return
+    Returns
     -------
     score : int
     """
@@ -146,18 +141,16 @@ def score_player_race(
     return score
 
 
-def score_player_sprint(
-    bets: List[RaceBet], drivers_sorted: List[str], dnfs_sprint: List[str]
-) -> int:
+def score_player_sprint(bets: List[RaceBet], drivers_sorted: List[str], dnfs_sprint: List[str]) -> int:
     """Score a player's bet against truth.
 
     Parameters
     ----------
-    :param bets : RaceBet
-    :param drivers_sorted : List[str]
-    :param dnfs_sprint: List[str]
+    bets : RaceBet
+    drivers_sorted : List[str]
+    dnfs_sprint: List[str]
 
-    :return
+    Returns
     -------
     score : int
     """
@@ -189,10 +182,10 @@ def score_player_quali(bets: List[RaceBet], drivers_sorted: List[str]) -> int:
 
     Parameters
     ----------
-    :param bets : List[RaceBet]
-    :param drivers_sorted : List[str]
+    bets : List[RaceBet]
+    drivers_sorted : List[str]
 
-    :return
+    Returns
     -------
     score : int
     """
@@ -209,10 +202,7 @@ def score_player_quali(bets: List[RaceBet], drivers_sorted: List[str]) -> int:
     return score
 
 
-def assess_bets_race(
-    results,
-    race,
-):
+def assess_bets_race(results: List[Results], race: Race):
     # scoring for each of the players in db
     for player in Player.objects.all():
         # first we transform data into more suitable structure
@@ -221,9 +211,7 @@ def assess_bets_race(
 
         # first we find out if player's bets are default values or not
         # if not, we assess them
-        race_not_default = PlayerPlacedBet.objects.filter(
-            race=race, player=player, race_type="race"
-        ).exists()
+        race_not_default = PlayerPlacedBet.objects.filter(race=race, player=player, race_type="race").exists()
 
         if race_not_default:
             score_race = score_player_race(
@@ -250,10 +238,7 @@ def assess_bets_race(
         points_total.save()
 
 
-def assess_bets_sprint(
-    results,
-    race,
-):
+def assess_bets_sprint(results: List[Results], race: Race):
     # first we transform data into more suitable structure
     results_transformed = transform_results(results)
     # scoring for each of the players in db
@@ -262,9 +247,7 @@ def assess_bets_sprint(
 
         # first we find out if player's bets are default values or not
         # if not, we assess them
-        sprint_not_default = PlayerPlacedBet.objects.filter(
-            race=race, player=player, race_type="sprint"
-        ).exists()
+        sprint_not_default = PlayerPlacedBet.objects.filter(race=race, player=player, race_type="sprint").exists()
 
         if sprint_not_default:
             score_sprint = score_player_sprint(
@@ -289,10 +272,7 @@ def assess_bets_sprint(
         points_total.save()
 
 
-def assess_bets_quali(
-    results,
-    race,
-):
+def assess_bets_quali(results: List[Results], race: Race):
     # first we transform data into more suitable structure
     results_transformed = transform_results(results)
     # scoring for each of the players in db
@@ -301,9 +281,7 @@ def assess_bets_quali(
 
         # first we find out if player's bets are default values or not
         # if not, we assess them
-        quali_not_default = PlayerPlacedBet.objects.filter(
-            race=race, player=player, race_type="quali"
-        ).exists()
+        quali_not_default = PlayerPlacedBet.objects.filter(race=race, player=player, race_type="quali").exists()
 
         if quali_not_default:
             score_quali = score_player_quali(
@@ -331,7 +309,6 @@ class Command(BaseCommand):
     # this command calculates points for each player's bets for each race
     # however, it firstly checks whether the bet is a result of user input or whether it is a default value for bets
     # if race doesn't involve a sprint event, it will not be evaluated at all
-    # todo debug - it's calculating nonsense (at quali)
     def handle(self, *args, **options):
         # first, we delete all data about points to avoid duplication
         PlayerPoint.objects.all().delete()
@@ -350,22 +327,16 @@ class Command(BaseCommand):
             # assess all racetypes for each player
             if quali_results_available:
                 assess_bets_quali(results=results, race=race)
-                quali_ass_status, _ = EventAssessmentStatus.objects.get_or_create(
-                    race=race, race_type="quali"
-                )
+                quali_ass_status, _ = EventAssessmentStatus.objects.get_or_create(race=race, race_type="quali")
                 quali_ass_status.was_assessed = True
                 quali_ass_status.save()
             if race.is_sprint and sprint_results_available:
                 assess_bets_sprint(results=results, race=race)
-                sprint_ass_status, _ = EventAssessmentStatus.objects.get_or_create(
-                    race=race, race_type="sprint"
-                )
+                sprint_ass_status, _ = EventAssessmentStatus.objects.get_or_create(race=race, race_type="sprint")
                 sprint_ass_status.was_assessed = True
                 sprint_ass_status.save()
             if race_results_available:
                 assess_bets_race(results=results, race=race)
-                race_ass_status, _ = EventAssessmentStatus.objects.get_or_create(
-                    race=race, race_type="race"
-                )
+                race_ass_status, _ = EventAssessmentStatus.objects.get_or_create(race=race, race_type="race")
                 race_ass_status.was_assessed = True
                 race_ass_status.save()

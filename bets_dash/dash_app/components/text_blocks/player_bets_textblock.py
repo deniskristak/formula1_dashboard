@@ -1,11 +1,11 @@
 from dash import dcc, html
 from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
-from bets_input.models import RaceBet
+from bets_input.models import RaceBet, Race, Player
 from bets_dash.dash_app.components.styles import style_env
 
 
-def render(app: DjangoDash, race, player, bet_was_registered, racetype) -> html.Div:
+def render(app: DjangoDash, race: Race, player: Player, bet_was_registered: bool, racetype: str) -> html.Div:
     if not bet_was_registered:
         return html.Div(
             children=[
@@ -17,17 +17,11 @@ def render(app: DjangoDash, race, player, bet_was_registered, racetype) -> html.
         )
     bet_rows = []
     if racetype == "quali":
-        player_bets = RaceBet.objects.filter(race=race, player=player).order_by(
-            "position_quali"
-        )
+        player_bets = RaceBet.objects.filter(race=race, player=player).order_by("position_quali")
     elif racetype == "sprint":
-        player_bets = RaceBet.objects.filter(race=race, player=player).order_by(
-            "position_sprint"
-        )
+        player_bets = RaceBet.objects.filter(race=race, player=player).order_by("position_sprint")
     else:
-        player_bets = RaceBet.objects.filter(race=race, player=player).order_by(
-            "position"
-        )
+        player_bets = RaceBet.objects.filter(race=race, player=player).order_by("position")
 
     for bet in player_bets:
         if racetype == "quali":
@@ -43,6 +37,4 @@ def render(app: DjangoDash, race, player, bet_was_registered, racetype) -> html.
                 ]
             )
         )
-    return html.Div(
-        children=[html.Hr(), html.H3("Player's bet"), html.Hr(), html.Div(bet_rows)]
-    )
+    return html.Div(children=[html.Hr(), html.H3("Player's bet"), html.Hr(), html.Div(bet_rows)])

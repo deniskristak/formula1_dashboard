@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 
 
 def index(request):
-    return render(request, 'dash_index.html')
+    return render(request, "dash_index.html")

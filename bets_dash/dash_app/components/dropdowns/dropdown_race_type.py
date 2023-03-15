@@ -12,8 +12,8 @@ def render(app: DjangoDash, race_types) -> html.Div:
             dcc.Dropdown(
                 id=ids.RACETYPE_DROPDOWN,
                 options=race_types,
-                value=race_types[1]['value'],
+                value=race_types[1]["value"],
                 style=style_env,
-            )
+            ),
         ],
     )

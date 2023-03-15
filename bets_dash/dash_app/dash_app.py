@@ -1,21 +1,17 @@
-from datetime import datetime
-
-import pytz
-from dash import Output, Input, State, html, ClientsideFunction
+from dash import Output, Input, html
 from dash_bootstrap_components.themes import BOOTSTRAP
 from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 
-from bets_input.models import Race, RaceBet, Player, PlayerPlacedBet
+from bets_input.models import Race, Player, PlayerPlacedBet
 from bets_dash.models import (
-    Results,
     PlayerPoint,
     PlayerPointsTotal,
     EventAssessmentStatus,
 )
 from .components import ids
 from .components.sliders import race_slider
-from .components.dropdowns import dropdown_players, dropdown_helper, dropdown_race_type
+from .components.dropdowns import dropdown_players, dropdown_race_type
 from .components.text_blocks import (
     race_type_textblock,
     results_textblock,
@@ -75,7 +71,7 @@ app.layout = html.Div(
     Output("race-details", component_property="children"),
     Input(ids.RACE_SLIDER, component_property="value"),
 )
-def selected_race_textblock(selected_race_index):
+def selected_race_textblock(selected_race_index: int):
     # selections in dash index from 0
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
@@ -86,7 +82,7 @@ def selected_race_textblock(selected_race_index):
     Output("race-types", component_property="children"),
     Input(ids.RACE_SLIDER, component_property="value"),
 )
-def race_types(selected_race_index):
+def race_types(selected_race_index: int):
     # selections in dash index from 0
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
@@ -105,7 +101,7 @@ def race_types(selected_race_index):
     Input(ids.RACE_SLIDER, component_property="value"),
     Input(ids.RACETYPE_DROPDOWN, component_property="value"),
 )
-def player_result_block(selected_race_index, selected_racetype):
+def player_result_block(selected_race_index: int, selected_racetype: str):
     # selections in dash index from 0
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
@@ -123,7 +119,7 @@ def player_result_block(selected_race_index, selected_racetype):
     Input(ids.RACE_SLIDER, component_property="value"),
     Input(ids.RACETYPE_DROPDOWN, component_property="value"),
 )
-def results(selected_race_index, racetype):
+def results(selected_race_index: int, racetype: str):
     # selections in dash index from 0
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
@@ -137,7 +133,7 @@ def results(selected_race_index, racetype):
     Input(ids.RACETYPE_DROPDOWN, component_property="value"),
     Input(ids.PLAYER_DROPDOWN, component_property="value"),
 )
-def player_bets(selected_race_index, racetype, player):
+def player_bets(selected_race_index: int, racetype: str, player: str):
     # selections in dash index from 0
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
@@ -167,15 +163,13 @@ def player_bets(selected_race_index, racetype, player):
     Input(ids.RACETYPE_DROPDOWN, component_property="value"),
     Input(ids.PLAYER_DROPDOWN, component_property="value"),
 )
-def player_points(selected_race_index, racetype, player):
+def player_points(selected_race_index: int, racetype: str, player: str):
     # selections in dash index from 0
     race_id = selected_race_index + 1
     selected_race_obj = Race.objects.get(id=race_id)
 
     try:
-        player_points_obj = PlayerPoint.objects.get(
-            race=selected_race_obj, player=Player.objects.get(nickname=player)
-        )
+        player_points_obj = PlayerPoint.objects.get(race=selected_race_obj, player=Player.objects.get(nickname=player))
         points_exist = True
     except PlayerPoint.DoesNotExist:
         points_exist = False
@@ -187,22 +181,16 @@ def player_points(selected_race_index, racetype, player):
     else:
         player_points = player_points_obj.points_race if points_exist else 0
 
-    return player_points_textblock.render(
-        app=app, player_points=player_points, player_nickname=player
-    )
+    return player_points_textblock.render(app=app, player_points=player_points, player_nickname=player)
 
 
 @app.callback(
     Output("player-points-total", component_property="children"),
     Input(ids.PLAYER_DROPDOWN, component_property="value"),
 )
-def player_points_total(player):
+def player_points_total(player: str):
     # selections in dash index from 0
     selected_player_obj = Player.objects.get(nickname=player)
-    player_points = PlayerPointsTotal.objects.get(
-        player=selected_player_obj
-    ).points_total
+    player_points = PlayerPointsTotal.objects.get(player=selected_player_obj).points_total
 
-    return player_points_total_textblock.render(
-        app=app, player_points=player_points, player_nickname=player
-    )
+    return player_points_total_textblock.render(app=app, player_points=player_points, player_nickname=player)

@@ -3,7 +3,7 @@ from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 
 
-def render(app: DjangoDash, event_in_future) -> html.Div:
+def render(app: DjangoDash, event_in_future: bool) -> html.Div:
     # if the event didn't finish yet, we display a message
     if event_in_future:
         return html.Div(

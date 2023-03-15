@@ -12,7 +12,7 @@ from bets_dash.dash_app.components.styles import style_env
 
 
 def render(app: DjangoDash) -> html.Div:
-    df = playerpoints2df()
+    df = playerpoints_to_dataframe()
     fig = px.line(df.cumsum())
 
     return html.Div(
@@ -23,7 +23,7 @@ def render(app: DjangoDash) -> html.Div:
     )
 
 
-def playerpoints2df():
+def playerpoints_to_dataframe() -> pd.DataFrame:
     players = Player.objects.all()
     races = Race.objects.all()
     data = defaultdict(lambda: defaultdict(dict))

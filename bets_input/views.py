@@ -33,9 +33,7 @@ def ordering(request):
     )
     if race_type == "race":
         # getting bets ordered by position in race
-        bets = RaceBet.objects.filter(
-            player=current_player, race=current_race
-        ).order_by("position")
+        bets = RaceBet.objects.filter(player=current_player, race=current_race).order_by("position")
 
         # if race was selected, there are data in request with info about dnf, dotd, fastest_lap
         save_extras_for_race(
@@ -47,9 +45,7 @@ def ordering(request):
 
     if race_type == "sprint":
         # getting bets, but in correct order (sprint)
-        bets = RaceBet.objects.filter(
-            player=current_player, race=current_race
-        ).order_by("position_sprint")
+        bets = RaceBet.objects.filter(player=current_player, race=current_race).order_by("position_sprint")
         # if sprint was selected, there are data in request with info about DNF
         save_extras_for_sprint(
             current_player=current_player,
@@ -60,13 +56,9 @@ def ordering(request):
 
     elif race_type == "quali":
         # if race_type is quali, we have nothing to save, so we just continue with ordering
-        bets = RaceBet.objects.filter(
-            player=current_player, race=current_race
-        ).order_by("position_quali")
+        bets = RaceBet.objects.filter(player=current_player, race=current_race).order_by("position_quali")
 
-    form = DriverExtrasForm(
-        curr_player=current_player, curr_race=current_race, race_type=race_type
-    )
+    form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
     return render(
         request,
         "ordering.html",
@@ -127,16 +119,12 @@ def save_extras_for_race(current_player, request, current_race, bets):
     # save DNFs
     dnf_fields = ["dnf_select_1", "dnf_select_2", "dnf_select_3"]
     for field in dnf_fields:
-        dnf_driver = RaceBet.objects.get(
-            player=current_player, race=current_race, driver=request.POST.get(field)
-        )
+        dnf_driver = RaceBet.objects.get(player=current_player, race=current_race, driver=request.POST.get(field))
         dnf_driver.dnf = True
         dnf_driver.save()
 
     # save dotd
-    dotd_driver = RaceBet.objects.get(
-        player=current_player, race=current_race, driver=request.POST.get("dotd_select")
-    )
+    dotd_driver = RaceBet.objects.get(player=current_player, race=current_race, driver=request.POST.get("dotd_select"))
     dotd_driver.dotd = True
     dotd_driver.save()
 
@@ -179,9 +167,7 @@ def bets_input(request):
             return render(request, "betting_after_start.html")
 
     bets = RaceBet.objects.filter(player=current_player, race=current_race)
-    form = DriverExtrasForm(
-        curr_player=current_player, curr_race=current_race, race_type=race_type
-    )
+    form = DriverExtrasForm(curr_player=current_player, curr_race=current_race, race_type=race_type)
 
     return render(
         request,
@@ -203,9 +189,7 @@ def sort(request):
     race_type = request.POST.get("race_type")
     bets = []
     for driver_pk in drivers_pks_ordered:
-        bet = RaceBet.objects.get(
-            race=current_race, player=current_player, driver=driver_pk
-        )
+        bet = RaceBet.objects.get(race=current_race, player=current_player, driver=driver_pk)
         if race_type == "race":
             bet.position = drivers_pks_ordered.index(driver_pk) + 1
         elif race_type == "quali":

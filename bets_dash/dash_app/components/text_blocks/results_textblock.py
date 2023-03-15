@@ -2,11 +2,11 @@ from dash import dcc, html
 from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 
-from bets_dash.models import Results
+from bets_dash.models import Results, Race
 from bets_dash.dash_app.components.styles import style_env
 
 
-def render(app: DjangoDash, race, racetype) -> html.Div:
+def render(app: DjangoDash, race: Race, racetype: str) -> html.Div:
     result_rows = []
     if racetype == "quali":
         results = Results.objects.filter(race=race).order_by("position_quali")
@@ -42,6 +42,4 @@ def render(app: DjangoDash, race, racetype) -> html.Div:
                 ]
             )
         )
-    return html.Div(
-        children=[html.Hr(), html.H3("Results"), html.Hr(), html.Div(result_rows)]
-    )
+    return html.Div(children=[html.Hr(), html.H3("Results"), html.Hr(), html.Div(result_rows)])

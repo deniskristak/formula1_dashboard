@@ -16,12 +16,6 @@ def render(app: DjangoDash) -> html.Div:
     return html.Div(
         children=[
             html.H2("Weekends", style=style_env),
-            dcc.Slider(
-                id=ids.RACE_SLIDER,
-                step=None,
-                marks=races_marks_ids,
-                value=0,
-                tooltip=races_marks_names
-            ),
+            dcc.Slider(id=ids.RACE_SLIDER, step=None, marks=races_marks_ids, value=0, tooltip=races_marks_names),
         ],
     )

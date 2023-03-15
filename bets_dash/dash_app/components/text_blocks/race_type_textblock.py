@@ -3,9 +3,10 @@ from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 
 from bets_dash.dash_app.components.styles import style_env
+from bets_input.models import Race
 
 
-def render(app: DjangoDash, selected_race_obj) -> html.Div:
+def render(app: DjangoDash, selected_race_obj: Race) -> html.Div:
     return html.Div(
         children=[
             dbc.Row(

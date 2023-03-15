@@ -38,9 +38,7 @@ class Command(BaseCommand):
                 is_sprint=race[3],
                 datetime_of_race_gmt=race[4],
                 datetime_of_quali_gmt=race[5],
-                datetime_of_sprint_gmt=race[6]
-                if race[6] != ""
-                else "1111-11-11 11:11:11",
+                datetime_of_sprint_gmt=race[6] if race[6] != "" else "1111-11-11 11:11:11",
             )
             new_race.save()
 
@@ -58,12 +56,8 @@ class Command(BaseCommand):
                         position_sprint=driver.default_position,
                         position_quali=driver.default_position,
                         # setting the worst 3 drivers as DNF as a default
-                        dnf=False
-                        if driver.default_position < len(all_drivers) - 2
-                        else True,
-                        dnf_sprint=False
-                        if driver.default_position < len(all_drivers) - 2
-                        else True,
+                        dnf=False if driver.default_position < len(all_drivers) - 2 else True,
+                        dnf_sprint=False if driver.default_position < len(all_drivers) - 2 else True,
                         # setting the best driver to have fastest lap as a default
                         fastest_lap=False if driver.default_position != 1 else True,
                         # setting the best driver to be driver of the day as a default
