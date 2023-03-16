@@ -13,9 +13,7 @@ from bets_dash.models import (
 )
 
 
-def transform_results(
-    results: List[Results],
-) -> Dict[str, List[str | int] | str | set[str]]:
+def transform_results(results):
     """Store results in python arrays.
 
     Parameters
