@@ -7,7 +7,7 @@ python -m venv .venv
 Activate venv environment (sets you environment so that it uses that specific python interpreter).<br> 
 **Do this anytime you run any command in this project**
 ```bash
-source ./venv/bin/activate
+source .venv/bin/activate
 ```
 
 Install required packages (after setting environment in the previous step):
