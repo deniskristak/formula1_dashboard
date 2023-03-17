@@ -31,7 +31,7 @@
             <img src="/static/bets_input/formula-1-logo-7.png" alt="Flowers" class="img-fluid" style="max-width: 150px">
         </picture>
         <ul class="nav nav-pills">
-            {% if request.get_full_path == '/' %}
+            {% if request.get_full_path == '/' or request.get_full_path == '/bets_input/ordering/' or request.get_full_path == '/bets_input/' %}
                 <li class="nav-item">
                     <a class="nav-link active" href={% url 'bets_input:index' %}>Bets registration</a>
                 </li>
