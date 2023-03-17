@@ -26,8 +26,28 @@
 </head>
 <body>
     <div class="jumbotron" style="display:flex;flex-wrap: wrap;justify-content: space-between;">
-        <a class="h3" href={% url 'bets_input:index' %}>Bets registration</a>
-        <a class="h3" href={% url 'bets_dash:index' %}>Result dashboard</a>
+        <picture>
+          <source srcset="/static/bets_input/formula-1-logo-7.png">
+          <img src="/static/bets_input/formula-1-logo-7.png" alt="Flowers" class="img-fluid" style="max-width: 150px">
+        </picture>
+        <ul class="nav nav-pills">
+            {% if request.get_full_path == '/' %}
+                <li class="nav-item">
+                    <a class="nav-link active" href={% url 'bets_input:index' %}>Bets registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={% url 'bets_dash:index' %}>Result dashboard</a>
+                </li>
+            {% elif request.get_full_path == '/dash/' %}
+                <li class="nav-item">
+                    <a class="nav-link" href={% url 'bets_input:index' %}>Bets registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href={% url 'bets_dash:index' %}>Result dashboard</a>
+                </li>
+            {% endif %}
+        </ul>
+        <h1></h1>
     </div>
     {% block base %}
 	{% endblock %}

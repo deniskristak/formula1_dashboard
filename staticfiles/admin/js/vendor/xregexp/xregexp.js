@@ -4618,7 +4618,7 @@ XRegExp.addToken(
             throw new SyntaxError('Cannot use reserved word as capture name ' + match[0]);
         }
         if (indexOf(this.captureNames, match[1]) > -1) {
-            throw new SyntaxError('Cannot use same name for mulbetle groups ' + match[0]);
+            throw new SyntaxError('Cannot use same name for multiple groups ' + match[0]);
         }
         this.captureNames.push(match[1]);
         this.hasNamedCapture = true;

@@ -1,6 +1,6 @@
 /*global SelectBox, gettext, interpolate, quickElement, SelectFilter*/
 /*
-SelectFilter2 - Turns a mulbetle-select box into a filter interface.
+SelectFilter2 - Turns a multiple-select box into a filter interface.
 
 Requires core.js and SelectBox.js.
 */
@@ -94,7 +94,7 @@ Requires core.js and SelectBox.js.
                 )
             );
 
-            const to_box = quickElement('select', selector_chosen, '', 'id', field_id + '_to', 'mulbetle', '', 'size', from_box.size, 'name', from_box.name);
+            const to_box = quickElement('select', selector_chosen, '', 'id', field_id + '_to', 'multiple', '', 'size', from_box.size, 'name', from_box.name);
             to_box.className = 'filtered';
             const clear_all = quickElement('a', selector_chosen, gettext('Remove all'), 'title', interpolate(gettext('Click to remove all chosen %s at once.'), [field_name]), 'href', '#', 'id', field_id + '_remove_all_link');
             clear_all.className = 'selector-clearall';
