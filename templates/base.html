@@ -25,10 +25,10 @@
 	</style>
 </head>
 <body>
-    <div class="jumbotron" style="display:flex;flex-wrap: wrap;justify-content: space-between;">
+    <div class="jumbotron" style="display:flex;justify-content: space-around;">
         <picture>
-          <source srcset="/static/bets_input/formula-1-logo-7.png">
-          <img src="/static/bets_input/formula-1-logo-7.png" alt="Flowers" class="img-fluid" style="max-width: 150px">
+            <source srcset="/static/bets_input/formula-1-logo-7.png">
+            <img src="/static/bets_input/formula-1-logo-7.png" alt="Flowers" class="img-fluid" style="max-width: 150px">
         </picture>
         <ul class="nav nav-pills">
             {% if request.get_full_path == '/' %}
@@ -47,7 +47,6 @@
                 </li>
             {% endif %}
         </ul>
-        <h1></h1>
     </div>
     {% block base %}
 	{% endblock %}
