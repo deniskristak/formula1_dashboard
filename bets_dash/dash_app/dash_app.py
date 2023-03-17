@@ -25,6 +25,7 @@ from .components.sections import player_result_section
 
 app = DjangoDash("MainDashApp", external_stylesheets=[BOOTSTRAP])
 app.title = "F1 2022 - Result Dashboard"
+app.css.append_css({"external_url": "/static/bets_input/style.css"})
 
 app.layout = html.Div(
     className="app-div",

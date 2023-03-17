@@ -33,7 +33,7 @@ def render(app: DjangoDash, race: Race, player: Player, bet_was_registered: bool
         bet_rows.append(
             dbc.Row(
                 [
-                    html.H5(f"P{position} {bet.driver.name}", style=style_env),
+                    html.H5(f"P{position} {bet.driver.name}", className=bet.driver.team.lc_name),
                 ]
             )
         )

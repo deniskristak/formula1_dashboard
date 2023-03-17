@@ -25,7 +25,7 @@
 	</style>
 </head>
 <body>
-    <div class="jumbotron" style="display:flex;justify-content: space-around;">
+    <header class="d-flex py-3 bg-dark text-white" style="display:flex;justify-content: space-around;">
         <picture>
             <source srcset="/static/bets_input/formula-1-logo-7.png">
             <img src="/static/bets_input/formula-1-logo-7.png" alt="Flowers" class="img-fluid" style="max-width: 150px">
@@ -33,21 +33,21 @@
         <ul class="nav nav-pills">
             {% if request.get_full_path == '/' or request.get_full_path == '/bets_input/ordering/' or request.get_full_path == '/bets_input/' %}
                 <li class="nav-item">
-                    <a class="nav-link active" href={% url 'bets_input:index' %}>Bets registration</a>
+                    <a class="nav-link bg-secondary active" href={% url 'bets_input:index' %}>Bets registration</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href={% url 'bets_dash:index' %}>Result dashboard</a>
+                    <a class="nav-link text-white" href={% url 'bets_dash:index' %}>Result dashboard</a>
                 </li>
             {% elif request.get_full_path == '/dash/' %}
                 <li class="nav-item">
-                    <a class="nav-link" href={% url 'bets_input:index' %}>Bets registration</a>
+                    <a class="nav-link text-white" href={% url 'bets_input:index' %}>Bets registration</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href={% url 'bets_dash:index' %}>Result dashboard</a>
+                    <a class="nav-link bg-secondary active" href={% url 'bets_dash:index' %}>Result dashboard</a>
                 </li>
             {% endif %}
         </ul>
-    </div>
+    </header>
     {% block base %}
 	{% endblock %}
 	<script>

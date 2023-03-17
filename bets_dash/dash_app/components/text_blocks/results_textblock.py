@@ -37,7 +37,7 @@ def render(app: DjangoDash, race: Race, racetype: str) -> html.Div:
                 [
                     html.H5(
                         f"P{position} {result.driver.name}{dnf_string}{fastest_lap_string}{dotd_string}",
-                        style=style_env,
+                        className=result.driver.team.lc_name,
                     ),
                 ]
             )

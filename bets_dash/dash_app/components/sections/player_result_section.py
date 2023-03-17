@@ -20,6 +20,7 @@ def render(app: DjangoDash, event_in_future: bool) -> html.Div:
                         ),
                     ),
                     dbc.Col(html.Hr()),
+                    dbc.Col(html.Hr()),
                     dbc.Col(id="player_bets"),
                 ]
             )
