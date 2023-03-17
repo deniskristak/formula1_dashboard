@@ -2,15 +2,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <br>
     {% if race_type == 'quali' %}
-        <h2>Qualification order</h2>
+        <h2 class="alert alert-dark" style="text-align: center">Expected results (quali)</h2>
     {% endif %}
     {% if race_type == 'race' %}
-        <h2>Race order</h2>
+        <h2 class="alert alert-dark" style="text-align: center">Expected results (race)</h2>
     {% endif %}
     {% if race_type == 'sprint' %}
-        <h2>Sprint order</h2>
+        <h2 class="alert alert-dark" style="text-align: center">Expected results (sprint)</h2>
     {% endif %}
     <div class="align-center">
         <main class="d-flex">
