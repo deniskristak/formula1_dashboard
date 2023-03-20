@@ -100,7 +100,7 @@ events = [
         ],
         "dnfs": ["ALB", "STR"],
         "sprint_dnfs": [],
-        "fastest_lap": ["VER"],
+        "fastest_lap": "VER",
         "dotd": "VER",
     },
 ]
