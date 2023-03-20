@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 except ValueError:
                     pos_sprint = 0
                 if len(race_order) > 0:
-                    fl = True if fastest_lap == race_order[idx] else False
+                    fl = True if fastest_lap == quali_order[idx] else False
                     pos_race = race_order.index(driver.abbreviation) + 1
                 else:
                     fl = False
