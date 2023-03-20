@@ -24,16 +24,31 @@ def render(app: DjangoDash, race: Race, player: Player, bet_was_registered: bool
         player_bets = RaceBet.objects.filter(race=race, player=player).order_by("position")
 
     for bet in player_bets:
+        dnf = False
+        fastest_lap = False
+        dotd = False
+
         if racetype == "quali":
             position = bet.position_quali
         elif racetype == "sprint":
             position = bet.position_sprint
+            dnf = bet.dnf_sprint
         else:
             position = bet.position
+            dnf = bet.dnf
+            fastest_lap = bet.fastest_lap
+            dotd = bet.dotd
+
+        fastest_lap_string = f" (FL)" if fastest_lap is True else ""
+        dotd_string = f" (DOTD)" if dotd is True else ""
+        dnf_string = f" (DNF)" if dnf is True else ""
         bet_rows.append(
             dbc.Row(
                 [
-                    html.H5(f"P{position} {bet.driver.name}", className=bet.driver.team.lc_name),
+                    html.H5(
+                        f"P{position} {bet.driver.name}{dnf_string}{fastest_lap_string}{dotd_string}",
+                        className=bet.driver.team.lc_name,
+                    ),
                 ]
             )
         )
