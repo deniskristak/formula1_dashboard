@@ -36,8 +36,12 @@ def transform_results(results):
     truelist_race = [[result.driver.name, result.position] for result in results]
     dnfs_race = [result.driver.name for result in results if result.dnf]
     dnfs_sprint = [result.driver.name for result in results if result.dnf_sprint]
-    dotd = [result.driver.name for result in results if result.dotd][0]
-    fastest_lap = [result.driver.name for result in results if result.fastest_lap][0]
+    dotd = [result.driver.name for result in results if result.dotd]
+    if len(dotd) > 0:
+        dotd = dotd[0]
+    fastest_lap = [result.driver.name for result in results if result.fastest_lap]
+    if len(fastest_lap) > 0:
+        fastest_lap = fastest_lap[0]
     # sort because I am not sure if sorted in db
     truelist_quali.sort(key=lambda x: x[1])
     truelist_sprint.sort(key=lambda x: x[1])
