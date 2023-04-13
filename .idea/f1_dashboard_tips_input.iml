@@ -17,7 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludePattern pattern=".project_venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (formula1_dashboard)" jdkType="Python SDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

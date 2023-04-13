@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 
 # import any model you need:
 from bets_input.models import Race, Driver, RaceBet, Player, PlayerPlacedBet
-from bets_dash.models import Results
 
 from bets_dash.management.commands.real_data.real_data_bets import bets
 
