@@ -20,7 +20,6 @@ class Command(BaseCommand):
             sprint_order = result_of_race["sprint_order"]
             race_order = result_of_race["race_order"]
             dnfs = result_of_race["dnfs"]
-            sprint_dnfs = result_of_race["sprint_dnfs"]
             fastest_lap = result_of_race["fastest_lap"]
             dotd = result_of_race["dotd"]
 
@@ -48,6 +47,5 @@ class Command(BaseCommand):
                     fastest_lap=fl,
                     dotd=True if dotd == driver.abbreviation else False,
                     dnf=True if dnfs.count(driver.abbreviation) > 0 else False,
-                    dnf_sprint=True if sprint_dnfs.count(driver.abbreviation) > 0 else False,
                 )
         print("Inserted old + new GP results")

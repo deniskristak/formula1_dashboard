@@ -15,7 +15,6 @@ class Command(BaseCommand):
             sprint_order = bet["sprint_order"]
             race_order = bet["race_order"]
             dnfs = bet["dnfs"]
-            sprint_dnfs = bet["sprint_dnfs"]
             fastest_lap = bet["fastest_lap"]
             dotd = bet["dotd"]
             print(player)
@@ -50,9 +49,6 @@ class Command(BaseCommand):
                     )
                     rb.dotd = True if dotd == driver.abbreviation else False
                     rb.dnf = True if driver.abbreviation in dnfs else False
-                    rb.dnf_sprint = (
-                        True if driver.abbreviation in sprint_dnfs else False
-                    )
                     rb.save()
 
             elif sprint_order_set:
@@ -75,9 +71,6 @@ class Command(BaseCommand):
                     rb.fastest_lap = False
                     rb.dotd = False
                     rb.dnf = False
-                    rb.dnf_sprint = (
-                        True if driver.abbreviation in sprint_dnfs else False
-                    )
                     rb.save()
             elif quali_order_set:
                 for idx in range(0, len(quali_order)):

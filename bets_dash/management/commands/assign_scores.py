@@ -28,14 +28,12 @@ def transform_results(results):
     dotd : str
     fastest_lap : str
     dnfs_race : set
-    dnfs_sprint: set
     """
 
     truelist_quali = [[result.driver.name, result.position_quali] for result in results]
     truelist_sprint = [[result.driver.name, result.position_sprint] for result in results]
     truelist_race = [[result.driver.name, result.position] for result in results]
     dnfs_race = [result.driver.name for result in results if result.dnf]
-    dnfs_sprint = [result.driver.name for result in results if result.dnf_sprint]
     dotd = [result.driver.name for result in results if result.dotd]
     if len(dotd) > 0:
         dotd = dotd[0]
@@ -52,7 +50,6 @@ def transform_results(results):
     sorted_drivers_race = [x[0] for x in truelist_race]
 
     dnfs_race = set(dnfs_race)
-    dnfs_sprint = set(dnfs_sprint)
     results_per_weekend = {
         "sorted_drivers_quali": sorted_drivers_quali,
         "sorted_drivers_sprint": sorted_drivers_sprint,
@@ -60,7 +57,6 @@ def transform_results(results):
         "dotd": dotd,
         "fastest_lap": fastest_lap,
         "dnfs_race": dnfs_race,
-        "dnfs_sprint": dnfs_sprint,
     }
 
     return results_per_weekend
@@ -143,14 +139,13 @@ def score_player_race(
     return score
 
 
-def score_player_sprint(bets: List[RaceBet], drivers_sorted: List[str], dnfs_sprint: List[str]) -> int:
+def score_player_sprint(bets: List[RaceBet], drivers_sorted: List[str]) -> int:
     """Score a player's bet against truth.
 
     Parameters
     ----------
     bets : RaceBet
     drivers_sorted : List[str]
-    dnfs_sprint: List[str]
 
     Returns
     -------
@@ -159,23 +154,17 @@ def score_player_sprint(bets: List[RaceBet], drivers_sorted: List[str], dnfs_spr
 
     score = 0
 
-    dnfsplayer_sprint = []
     for betrow in bets:
         driver_name = betrow.driver.name
 
         # check if race is sprint before doing any evaluation
         score += score_order(
-            driver_name=betrow.driver.name,
+            driver_name=driver_name,
             dpos=betrow.position_sprint,
             drivers_sorted=drivers_sorted,
             weights=[2, 1, 0],
         )
-        if betrow.dnf_sprint:
-            dnfsplayer_sprint.append(driver_name)
 
-    # compare sets of true and predicted dnfs
-    # add size of the intersection to the tally (max 5 points)
-    score += min(len(set(dnfsplayer_sprint).intersection(dnfs_sprint)), 5)
     return score
 
 
@@ -255,7 +244,6 @@ def assess_bets_sprint(results: List[Results], race: Race):
             score_sprint = score_player_sprint(
                 bets=playersbets,
                 drivers_sorted=results_transformed.get("sorted_drivers_sprint"),
-                dnfs_sprint=results_transformed.get("dnfs_sprint"),
             )
         else:
             score_sprint = 0
