@@ -31,7 +31,9 @@ def playerpoints_to_dataframe() -> pd.DataFrame:
         for race in races:
             player_points = PlayerPoint.objects.filter(player=player, race=race)
             if player_points.exists():
-                data[player.nickname][race.name] = player_points.first().points_race
+                data[player.nickname][race.name] = player_points.first().points_race + \
+                                                   player_points.first().points_quali + \
+                                                   player_points.first().points_sprint
             else:
                 data[player.nickname][race.name] = 0
 
