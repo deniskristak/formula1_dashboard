@@ -387,7 +387,7 @@ events = [
         "dotd": "HAM"
     },
     {
-        "weekend_number": 8,
+        "weekend_number": 9,
         "quali_order": [
             "VER",
             "HUL",
