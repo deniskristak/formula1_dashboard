@@ -385,5 +385,36 @@ events = [
         "dnfs": [],
         "fastest_lap": "VER",
         "dotd": "HAM"
-    }
+    },
+    {
+        "weekend_number": 8,
+        "quali_order": [
+            "VER",
+            "HUL",
+            "ALO",
+            "HAM",
+            "RUS",
+            "OCO",
+            "NOR",
+            "SAI",
+            "PIA",
+            "ALB",
+            "LEC",
+            "PER",
+            "STR",
+            "MAG",
+            "BOT",
+            "TSU",
+            "GAS",
+            "DEV",
+            "SAR",
+            "ZHO"
+        ],
+        "sprint_order": [],
+        "race_order": [
+        ],
+        "dnfs": [],
+        "fastest_lap": "",
+        "dotd": ""
+    },
 ]
