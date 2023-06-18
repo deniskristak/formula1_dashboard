@@ -412,9 +412,29 @@ events = [
         ],
         "sprint_order": [],
         "race_order": [
+            "VER",
+            "ALO",
+            "HAM",
+            "LEC",
+            "SAI",
+            "PER",
+            "ALB",
+            "OCO",
+            "STR",
+            "BOT",
+            "PIA",
+            "GAS",
+            "NOR",
+            "TSU",
+            "HUL",
+            "ZHO",
+            "MAG",
+            "DEV",
+            "RUS",
+            "SAR"
         ],
-        "dnfs": [],
-        "fastest_lap": "",
-        "dotd": ""
+        "dnfs": ['SAR', 'RUS'],
+        "fastest_lap": "PER",
+        "dotd": "ALB"
     },
 ]
